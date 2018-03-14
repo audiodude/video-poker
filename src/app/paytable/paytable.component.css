@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  height: 30vw;
+}
+
+.col,
+.row {
+  box-sizing: border-box;
+}
+
+.col {
+  border: 1px solid yellow;
+  height: 30vw;
+}
+
+.hand {
+  width: 30vw;
+}
+
+.payout {
+  width: 23.662vw;
+}

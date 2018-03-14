@@ -1,0 +1,8 @@
+<paytable></paytable>
+<cards [cards]="cards" [selections]="selections"></cards>
+<controls [selections]="selections"
+          [canHold]="firstDeal"
+          (cardHeld)="onCardHeld($event)"></controls>
+<div class="deal-cont">
+  <button class="deal-button" (click)="deal()">DEAL</button>
+</div>

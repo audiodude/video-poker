@@ -1,0 +1,21 @@
+:host {
+  width: 100vw; 
+  height: 74.16vw;
+  background: blue;
+  max-height: 100vh;
+  max-width: 148.31vh;
+  margin: auto;
+  position: absolute;
+  top:0;bottom:0; /* vertical center */
+  left:0;right:0; /* horizontal center */
+}
+
+.deal-cont {
+  text-align: center;
+}
+
+.deal-button {
+  font-size: 3.5vw;
+  margin-top: 2vw;
+  padding: 1vw;
+}
