@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Card} from './card';
+import {Card} from '../deck';
 
 @Component({
   selector: 'card',
@@ -12,8 +12,13 @@ export class CardComponent {
 
   constructor() {}
 
-  getClass(): string {
-    return `card ${this.value.hidden ? 'hidden ' : ' '}${
-        this.held ? 'held ' : ' '}s-${this.value.suit} r-${this.value.rank}`;
+  getClass(): string[] {
+    return [
+      'card',
+      this.value.hidden ? 'hidden ' : '',
+      this.held ? 'held ' : '',
+      `s-${this.value.suit}`,
+      `r-${this.value.rank}`,
+    ];
   }
 }

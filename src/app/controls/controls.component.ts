@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class ControlsComponent {
   @Input() selections: boolean[];
   @Input() canHold: boolean;
-  @Output() cardHeld: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() cardHeld: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {}
 

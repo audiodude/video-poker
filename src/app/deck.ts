@@ -1,8 +1,30 @@
+function* enumerateSuits() {
+  yield* [Suit.SPADES, Suit.DIAMONDS, Suit.HEARTS, Suit.CLUBS]
+}
+
+function* enumerateRanks() {
+  yield* [
+    Rank.TWO,
+    Rank.THREE,
+    Rank.FOUR,
+    Rank.FIVE,
+    Rank.SIX,
+    Rank.SEVEN,
+    Rank.EIGHT,
+    Rank.NINE,
+    Rank.TEN,
+    Rank.JACK,
+    Rank.QUEEN,
+    Rank.KING,
+    Rank.ACE,
+  ]
+}
+
 export enum Suit {
-  SPADES,
-  DIAMONDS,
-  HEARTS,
-  CLUBS,
+  SPADES = 0,
+  DIAMONDS = 1,
+  HEARTS = 2,
+  CLUBS = 3,
 }
 
 export enum Rank {
@@ -44,15 +66,12 @@ export class Deck {
   private cards: Card[] = [];
 
   constructor() {
-    for (const s in Suit) {
-      if (typeof Suit[s] !== 'number') {
-        continue;
-      }
-      for (const r in Rank) {
-        if (typeof Rank[r] !== 'number') {
-          continue;
-        }
-        this.cards.push({suit: Suit[s], rank: Rank[r], hidden: true});
+    let s, r;
+    const suits = enumerateSuits();
+    const ranks = enumerateRanks()
+    while (s = suits.next().value) {
+      while (r = ranks.next().value) {
+        this.cards.push({suit: s, rank: r, hidden: true});
       }
     }
 

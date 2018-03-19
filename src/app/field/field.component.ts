@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Card, Deck, determineHand} from '../deck';
 
 
@@ -7,7 +7,7 @@ import {Card, Deck, determineHand} from '../deck';
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.css']
 })
-export class FieldComponent implements OnInit {
+export class FieldComponent {
   selections: boolean[];
   cards: Card[];
   deck: Deck;

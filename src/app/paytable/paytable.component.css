@@ -1,6 +1,6 @@
 :host {
   display: flex;
-  height: 30vw;
+  height: 20vw;
 }
 
 .col,
@@ -10,7 +10,7 @@
 
 .col {
   border: 1px solid yellow;
-  height: 30vw;
+  height: 20vw;
 }
 
 .hand {
