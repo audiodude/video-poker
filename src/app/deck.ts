@@ -76,11 +76,11 @@ export class Deck {
     }
 
     this.cards = [
-      {suit: Suit.CLUBS, rank: Rank.FOUR, hidden: true},
+      {suit: Suit.CLUBS, rank: Rank.FIVE, hidden: true},
       {suit: Suit.DIAMONDS, rank: Rank.FOUR, hidden: true},
-      {suit: Suit.HEARTS, rank: Rank.FOUR, hidden: true},
-      {suit: Suit.SPADES, rank: Rank.SIX, hidden: true},
-      {suit: Suit.CLUBS, rank: Rank.TWO, hidden: true},
+      {suit: Suit.HEARTS, rank: Rank.TWO, hidden: true},
+      {suit: Suit.SPADES, rank: Rank.JACK, hidden: true},
+      {suit: Suit.CLUBS, rank: Rank.ACE, hidden: true},
     ]
   }
 
@@ -120,12 +120,12 @@ function isFlush(cards: Card[]): boolean {
 
 function isStraight(cards: Card[]): boolean {
   const ranks = cards.map((c) => {return c.rank});
-  if (ranks[0] + 1 == ranks[1] && ranks[1] + 1 == ranks[2] &&
-      ranks[2] + 1 == ranks[3] && ranks[3] + 1 == ranks[4]) {
+  if (ranks[0] + 1 === ranks[1] && ranks[1] + 1 === ranks[2] &&
+      ranks[2] + 1 === ranks[3] && ranks[3] + 1 === ranks[4]) {
     return true;
   } else if (
       ranks[0] === Rank.TWO && ranks[1] === Rank.THREE &&
-      ranks[2] == Rank.FOUR && ranks[3] === Rank.FIVE &&
+      ranks[2] === Rank.FOUR && ranks[3] === Rank.FIVE &&
       ranks[4] === Rank.ACE) {
     return true;
   }
@@ -144,7 +144,97 @@ function isFourOfAKind(cards: Card[]): boolean {
   }
   ranks = enumerateRanks();
   while (r = ranks.next().value) {
-    if (rankMap[r] == 4) {
+    if (rankMap[r] === 4) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isFullHouse(cards: Card[]): boolean {
+  let ranks = enumerateRanks();
+  let r;
+  const rankMap = {};
+  while (r = ranks.next().value) {
+    rankMap[r] = 0;
+  }
+  for (const c of cards) {
+    rankMap[c.rank]++;
+  }
+  ranks = enumerateRanks();
+
+  let foundThree = false;
+  let foundPair = false;
+  while (r = ranks.next().value) {
+    if (rankMap[r] === 3) {
+      foundThree = true;
+    } else if (rankMap[r] === 2) {
+      foundPair = true;
+    }
+  }
+  return foundThree && foundPair;
+}
+
+function isThreeOfAKind(cards: Card[]): boolean {
+  let ranks = enumerateRanks();
+  let r;
+  const rankMap = {};
+  while (r = ranks.next().value) {
+    rankMap[r] = 0;
+  }
+  for (const c of cards) {
+    rankMap[c.rank]++;
+  }
+  ranks = enumerateRanks();
+
+  let foundThree = false;
+  while (r = ranks.next().value) {
+    if (rankMap[r] === 3) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isTwoPair(cards: Card[]): boolean {
+  let ranks = enumerateRanks();
+  let r;
+  const rankMap = {};
+  while (r = ranks.next().value) {
+    rankMap[r] = 0;
+  }
+  for (const c of cards) {
+    rankMap[c.rank]++;
+  }
+  ranks = enumerateRanks();
+
+  let pairsFound = 0;
+  while (r = ranks.next().value) {
+    if (rankMap[r] === 2) {
+      pairsFound++;
+    }
+  }
+  return pairsFound === 2;
+}
+
+function isJacksOrBetter(cards: Card[]): boolean {
+  let ranks = enumerateRanks();
+  let r;
+  const rankMap = {};
+  while (r = ranks.next().value) {
+    rankMap[r] = 0;
+  }
+  for (const c of cards) {
+    rankMap[c.rank]++;
+  }
+  ranks = enumerateRanks();
+
+  while (r = ranks.next().value) {
+    if (r !== Rank.JACK && r !== Rank.QUEEN && r !== Rank.KING &&
+        r !== Rank.ACE) {
+      continue;
+    }
+    if (rankMap[r] === 2) {
       return true;
     }
   }
@@ -177,9 +267,19 @@ export function determineHand(cards: Card[]): Hand {
     }
   } else if (isFourOfAKind(cards)) {
     return Hand.FOUR_OF_A_KIND;
+  } else if (isFullHouse(cards)) {
+    return Hand.FULL_HOUSE;
   } else if (flush) {
     return Hand.FLUSH;
   } else if (straight) {
     return Hand.STRAIGHT;
+  } else if (isThreeOfAKind(cards)) {
+    return Hand.THREE_OF_A_KIND;
+  } else if (isTwoPair(cards)) {
+    return Hand.TWO_PAIR;
+  } else if (isJacksOrBetter(cards)) {
+    return Hand.JACKS_OR_BETTER;
+  } else {
+    return Hand.NOTHING;
   }
 }
