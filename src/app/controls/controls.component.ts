@@ -6,7 +6,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./controls.component.css']
 })
 export class ControlsComponent {
-  @Input() selections: boolean[];
+  @Input() selections: boolean[] = [];
   @Input() canHold: boolean;
   @Output() cardHeld: EventEmitter<number> = new EventEmitter<number>();
 

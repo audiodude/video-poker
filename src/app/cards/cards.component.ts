@@ -7,8 +7,8 @@ import {Card, Deck, Rank, Suit} from '../deck';
   styleUrls: ['./cards.component.css']
 })
 export class CardsComponent {
-  @Input() selections: boolean[];
-  @Input() cards: Card[];
+  @Input() selections: boolean[] = [];
+  @Input() cards: Card[] = [];
 
   constructor() {}
 }

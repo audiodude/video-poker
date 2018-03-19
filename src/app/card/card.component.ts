@@ -13,12 +13,14 @@ export class CardComponent {
   constructor() {}
 
   getClass(): string[] {
-    return [
-      'card',
-      this.value.hidden ? 'hidden ' : '',
-      this.held ? 'held ' : '',
-      `s-${this.value.suit}`,
-      `r-${this.value.rank}`,
-    ];
+    const classes = [];
+    if (this.value) {
+      classes.push(this.value.hidden ? 'hidden ' : '');
+      classes.push(`s-${this.value.suit}`);
+      classes.push(`r-${this.value.rank}`);
+    }
+    classes.push('card');
+    classes.push(this.held ? 'held ' : '');
+    return classes;
   }
 }

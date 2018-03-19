@@ -77,9 +77,9 @@ export class Deck {
 
     this.cards = [
       {suit: Suit.CLUBS, rank: Rank.FOUR, hidden: true},
-      {suit: Suit.CLUBS, rank: Rank.THREE, hidden: true},
-      {suit: Suit.CLUBS, rank: Rank.FIVE, hidden: true},
-      {suit: Suit.CLUBS, rank: Rank.SIX, hidden: true},
+      {suit: Suit.DIAMONDS, rank: Rank.FOUR, hidden: true},
+      {suit: Suit.HEARTS, rank: Rank.FOUR, hidden: true},
+      {suit: Suit.SPADES, rank: Rank.SIX, hidden: true},
       {suit: Suit.CLUBS, rank: Rank.TWO, hidden: true},
     ]
   }
@@ -120,15 +120,33 @@ function isFlush(cards: Card[]): boolean {
 
 function isStraight(cards: Card[]): boolean {
   const ranks = cards.map((c) => {return c.rank});
-  ranks.sort((a, b) => a - b);
-  const sum = ranks.reduce((acc, cur) => acc + cur);
-  if ((sum - ranks[2]) / 4 === ranks[2]) {
+  if (ranks[0] + 1 == ranks[1] && ranks[1] + 1 == ranks[2] &&
+      ranks[2] + 1 == ranks[3] && ranks[3] + 1 == ranks[4]) {
     return true;
   } else if (
       ranks[0] === Rank.TWO && ranks[1] === Rank.THREE &&
       ranks[2] == Rank.FOUR && ranks[3] === Rank.FIVE &&
       ranks[4] === Rank.ACE) {
     return true;
+  }
+  return false;
+}
+
+function isFourOfAKind(cards: Card[]): boolean {
+  let ranks = enumerateRanks();
+  let r;
+  const rankMap = {};
+  while (r = ranks.next().value) {
+    rankMap[r] = 0;
+  }
+  for (const c of cards) {
+    rankMap[c.rank]++;
+  }
+  ranks = enumerateRanks();
+  while (r = ranks.next().value) {
+    if (rankMap[r] == 4) {
+      return true;
+    }
   }
   return false;
 }
@@ -157,6 +175,8 @@ export function determineHand(cards: Card[]): Hand {
     } else {
       return Hand.STRAIGHT_FLUSH;
     }
+  } else if (isFourOfAKind(cards)) {
+    return Hand.FOUR_OF_A_KIND;
   } else if (flush) {
     return Hand.FLUSH;
   } else if (straight) {

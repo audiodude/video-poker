@@ -1,16 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CardsComponent } from './cards.component';
+import {CardComponent} from '../card/card.component';
+import {ControlsComponent} from '../controls/controls.component';
+import {PaytableComponent} from '../paytable/paytable.component';
+
+import {CardsComponent} from './cards.component';
 
 describe('CardsComponent', () => {
   let component: CardsComponent;
   let fixture: ComponentFixture<CardsComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CardsComponent ]
-    })
-    .compileComponents();
+    TestBed
+        .configureTestingModule({declarations: [CardComponent, CardsComponent]})
+        .compileComponents();
   }));
 
   beforeEach(() => {
