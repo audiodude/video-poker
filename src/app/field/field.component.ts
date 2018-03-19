@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
-import {Card, Deck, determineHand} from '../deck';
+
+import {Card, Deck, determineHand, Hand} from '../deck';
 
 
 @Component({
@@ -12,6 +13,7 @@ export class FieldComponent {
   cards: Card[];
   deck: Deck;
   firstDeal: boolean;
+  hand: Hand;
 
   constructor() {
     this.initialDeal();
@@ -34,6 +36,7 @@ export class FieldComponent {
         }, 200 + 200 * animationCounter);
         animationCounter++;
       }
+      this.hand = determineHand(this.cards);
       this.firstDeal = false;
     } else {
       this.initialDeal();
@@ -44,7 +47,8 @@ export class FieldComponent {
     this.firstDeal = true;
     this.selections = [false, false, false, false, false];
     this.deck = new Deck();
-    // this.deck.shuffle();
+    window.console.log(this.deck);
+    this.deck.shuffle();
 
     this.cards = this.deck.deal(5);
 
@@ -53,6 +57,6 @@ export class FieldComponent {
         this.cards[i].hidden = false;
       }, 200 + 200 * i);
     }
-    console.log(determineHand(this.cards));
+    this.hand = determineHand(this.cards);
   }
 }

@@ -8,9 +8,25 @@
   box-sizing: border-box;
 }
 
+.row {
+  color: yellow;
+  font-family: Arial, sans-serif;
+  font-size: 2vw;
+  line-height: 2.3vw;
+  margin: 0 .5vw;
+}
+
+.row.selected {
+  color: red;
+}
+
+.payout .row {
+  text-align: right;
+}
+
 .col {
   border: 1px solid yellow;
-  height: 20vw;
+  height: 20.7vw;
 }
 
 .hand {
