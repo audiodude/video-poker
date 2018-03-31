@@ -36,3 +36,27 @@
 .payout {
   width: 23.662vw;
 }
+
+@media (min-width: 133.33vh) {
+  :host {
+    height: calc(20vh * 4 / 3);
+  }
+
+  .col {
+    height: calc(20.7vh * 4 / 3);
+  }
+
+  .row {
+    font-size: calc(2vh * 4 / 3);
+    line-height: calc(2.3vh * 4 / 3);
+    margin: 0 calc(.5vh * 4 / 3);
+  }
+
+  .hand {
+    width: calc(30vh * 4 / 3);
+  }
+
+  .payout {
+    width: clac(23.662vh * 4 / 3);
+  }
+}

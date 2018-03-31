@@ -12,6 +12,13 @@
   width: 100vw; 
 }
 
+@media (min-width: 133.33vh) {
+  :host {
+    height: 100vh;
+    width: 133.33vh;
+  }
+}
+
 .deal-cont {
   text-align: center;
 }

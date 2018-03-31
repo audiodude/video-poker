@@ -18,16 +18,16 @@
   font-size: 2vw;
   color: white;
   text-align: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 .125vw .25vw rgba(0, 0, 0, 0.25);
   background: #f1c40f;
   border: 0;
-  border-bottom: 2px solid #e2b607;
+  border-bottom: .25vw solid #e2b607;
   cursor: pointer;
-  -webkit-box-shadow: inset 0 -2px #e2b607;
-  box-shadow: inset 0 -2px #e2b607;
+  -webkit-box-shadow: inset 0 -.25vw #e2b607;
+  box-shadow: inset -.25vw #e2b607;
 }
 .button:active {
-  top: 1px;
+  top: .125vw;
   outline: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -35,7 +35,38 @@
 
 .button.held {
   background: red;
-  border-bottom: 2px solid #ff2222;
-  -webkit-box-shadow: inset 0 -2px #ff2222;
-  box-shadow: inset 0 -2px #ff2222;
+  border-bottom: .25vw solid #ff2222;
+  -webkit-box-shadow: inset 0 -.25vw #ff2222;
+  box-shadow: inset -0.25vw #ff2222;
+}
+
+@media (min-width: 133.33vh) {
+  :host {
+    margin-top: calc(2vh * 4 / 3);
+  }
+
+  .button {
+    margin: 0 calc(5vh * 4 / 3) 0 calc(5vh * 4 / 3);
+    width: calc(5vh * 4 / 3);
+  }
+
+  .button {
+    border-radius: calc(.25vh * 4 / 3);
+    padding: calc(.5vh * 4 / 3);
+    font-size: calc(2vh * 4 / 3);
+    text-shadow: 0 calc(.125vh * 4 / 3) calc(.25vh * 4 / 3) rgba(0, 0, 0, 0.25);
+    border-bottom: calc(.25vh * 4 / 3) solid #e2b607;
+    -webkit-box-shadow: inset 0 calc(-.25vh * 4 / 3) #e2b607;
+    box-shadow: inset 0 calc(-.25vh * 4 / 3) #e2b607;
+  }
+  .button:active {
+    top: (.125vh * 4 / 3);
+
+  }
+
+  .button.held {
+    border-bottom: calc(.25vh * 4 / 3) solid #ff2222;
+    -webkit-box-shadow: inset 0 calc(-.25vh * 4 / 3) #ff2222;
+    box-shadow: inset 0 calc(-.25vh * 4 / 3) #ff2222;
+  }
 }

@@ -3,3 +3,9 @@
   justify-content: center;
   margin-top: 4vw;
 }
+
+@media (min-width: 133.33vh) {
+  :host {
+    margin-top: calc(4vh * 4 / 3);
+  }
+}
