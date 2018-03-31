@@ -1,8 +1,8 @@
-function* enumerateSuits() {
+export function* enumerateSuits() {
   yield* [Suit.SPADES, Suit.DIAMONDS, Suit.HEARTS, Suit.CLUBS];
 }
 
-function* enumerateRanks() {
+export function* enumerateRanks() {
   yield* [
     Rank.TWO,
     Rank.THREE,
@@ -59,7 +59,7 @@ export enum Hand {
 export type Card = {
   suit: Suit,
   rank: Rank,
-  hidden: boolean,
+  hidden?: boolean,
 }
 
 export class Deck {
@@ -75,6 +75,10 @@ export class Deck {
         this.cards.push({suit: s.value, rank: r.value, hidden: true});
       }
     }
+  }
+
+  cardsRemaining() {
+    return this.cards.length;
   }
 
   shuffle() {
@@ -97,7 +101,7 @@ export class Deck {
   }
 }
 
-function isFlush(cards: Card[]): boolean {
+export function isFlush(cards: Card[]): boolean {
   const suitsInHand =
       {[Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0};
   for (const c of cards) {
@@ -111,7 +115,7 @@ function isFlush(cards: Card[]): boolean {
   return false
 }
 
-function isStraight(cards: Card[]): boolean {
+export function isStraight(cards: Card[]): boolean {
   const ranks = cards.map((c) => {return c.rank});
   if (ranks[0] + 1 === ranks[1] && ranks[1] + 1 === ranks[2] &&
       ranks[2] + 1 === ranks[3] && ranks[3] + 1 === ranks[4]) {
@@ -125,7 +129,7 @@ function isStraight(cards: Card[]): boolean {
   return false;
 }
 
-function isFourOfAKind(cards: Card[]): boolean {
+export function isFourOfAKind(cards: Card[]): boolean {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
@@ -144,7 +148,7 @@ function isFourOfAKind(cards: Card[]): boolean {
   return false;
 }
 
-function isFullHouse(cards: Card[]): boolean {
+export function isFullHouse(cards: Card[]): boolean {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
@@ -168,7 +172,7 @@ function isFullHouse(cards: Card[]): boolean {
   return foundThree && foundPair;
 }
 
-function isThreeOfAKind(cards: Card[]): boolean {
+export function isThreeOfAKind(cards: Card[]): boolean {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
@@ -189,7 +193,7 @@ function isThreeOfAKind(cards: Card[]): boolean {
   return false;
 }
 
-function isTwoPair(cards: Card[]): boolean {
+export function isTwoPair(cards: Card[]): boolean {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
@@ -210,7 +214,7 @@ function isTwoPair(cards: Card[]): boolean {
   return pairsFound === 2;
 }
 
-function isJacksOrBetter(cards: Card[]): boolean {
+export function isJacksOrBetter(cards: Card[]): boolean {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
@@ -234,7 +238,7 @@ function isJacksOrBetter(cards: Card[]): boolean {
   return false;
 }
 
-function handContainsRank(cards: Card[], r: Rank): boolean {
+export function handContainsRank(cards: Card[], r: Rank): boolean {
   for (const c of cards) {
     if (c.rank == r) {
       return true;

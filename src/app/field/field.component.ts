@@ -47,7 +47,6 @@ export class FieldComponent {
     this.firstDeal = true;
     this.selections = [false, false, false, false, false];
     this.deck = new Deck();
-    window.console.log(this.deck);
     this.deck.shuffle();
 
     this.cards = this.deck.deal(5);
