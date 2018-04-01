@@ -116,15 +116,30 @@ export function isFlush(cards: Card[]): boolean {
 }
 
 export function isStraight(cards: Card[]): boolean {
-  const ranks = cards.map((c) => {return c.rank});
-  if (ranks[0] + 1 === ranks[1] && ranks[1] + 1 === ranks[2] &&
-      ranks[2] + 1 === ranks[3] && ranks[3] + 1 === ranks[4]) {
-    return true;
-  } else if (
-      ranks[0] === Rank.TWO && ranks[1] === Rank.THREE &&
-      ranks[2] === Rank.FOUR && ranks[3] === Rank.FIVE &&
-      ranks[4] === Rank.ACE) {
-    return true;
+  let ranks = enumerateRanks();
+  let r;
+  const rankMap = {};
+  while (r = ranks.next().value) {
+    rankMap[r] = 0;
+  }
+  for (const c of cards) {
+    rankMap[c.rank]++;
+  }
+  ranks = enumerateRanks();
+  let straightCards = 0;
+  while (r = ranks.next().value) {
+    if (r == Rank.SIX && straightCards == 4 && rankMap[Rank.ACE] == 1) {
+      // Wheel straight
+      return true;
+    }
+    if (straightCards > 0 && rankMap[r] === 0) {
+      return false;
+    } else if (rankMap[r] === 1) {
+      straightCards++;
+      if (straightCards === 5) {
+        return true;
+      }
+    }
   }
   return false;
 }
