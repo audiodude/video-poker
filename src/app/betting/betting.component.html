@@ -1,0 +1,17 @@
+<div class="bet-amount-cont">
+  <span *ngIf="betAmount" class="bet-amount">
+    {{betAmount}} {{betAmount > 1 ? 'credits' : 'credit'}}
+  </span>
+  <span *ngIf="!betAmount" class="bet-amount">
+    Place bet
+  </span>
+  <span class="total-amount">
+    {{totalAmount}} {{totalAmount > 1 ? 'credits' : 'credit'}}
+  </span>
+</div>
+
+<div class="bet-buttons">
+  <button class="bet-button" (click)="betClicked(1)">Bet 1</button>
+  <button class="bet-button" (click)="betClicked(5)">Bet 5</button>
+  <button class="bet-button deal" (click)="dealClicked()">Deal</button>
+</div>

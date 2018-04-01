@@ -14,13 +14,25 @@ export class FieldComponent {
   deck: Deck;
   firstDeal: boolean;
   hand: Hand;
+  betAmount: number = 0;
+  totalAmount: number = 100;
 
   constructor() {
-    this.initialDeal();
+    this.emptyDeal();
   }
 
   onCardHeld(index) {
     this.selections[index] = !this.selections[index];
+  }
+
+  bet(amount: number) {
+    if (amount == 1 && this.betAmount < 5) {
+      this.betAmount++;
+    }
+    if (amount == 5) {
+      this.betAmount = 5;
+      this.initialDeal();
+    }
   }
 
   deal() {
@@ -37,14 +49,27 @@ export class FieldComponent {
         animationCounter++;
       }
       this.hand = determineHand(this.cards);
+      this.payout();
       this.firstDeal = false;
     } else {
       this.initialDeal();
     }
   }
 
+  payout() {
+    // TODO: logic for paying the player.
+  }
+
   private initialDeal() {
+    if (this.totalAmount - this.betAmount < 0) {
+      return
+    } else {
+      this.totalAmount -= this.betAmount;
+    }
+
     this.firstDeal = true;
+    this.gameOver = false;
+    
     this.selections = [false, false, false, false, false];
     this.deck = new Deck();
     this.deck.shuffle();
@@ -57,5 +82,12 @@ export class FieldComponent {
       }, 200 + 200 * i);
     }
     this.hand = determineHand(this.cards);
+  }
+
+  private emptyDeal() {
+    this.selections = [false, false, false, false, false];
+    this.deck = new Deck();
+    this.cards = this.deck.deal(5);
+    this.gameOver = true;
   }
 }

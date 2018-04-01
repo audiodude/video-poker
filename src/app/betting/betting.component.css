@@ -1,0 +1,53 @@
+.bet-amount-cont {
+  color: yellow;
+  font-size: 1.5vw;
+  margin: 1.5vw 0;
+  position: relative;
+  text-align: center
+}
+
+.total-amount {
+  color: yellow;
+  position: absolute;
+  right: 1vw;
+}
+
+.bet-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bet-button {
+  background: #ddd;
+  border-radius: .25vw;
+  color: #000;
+  cursor: pointer;
+  font-size: 2vw;
+  margin-left: 2vw;
+}
+
+.bet-button.deal {
+  margin: 0 6vw 0 30.6vw;
+}
+
+
+@media (min-width: 133.33vh) {
+  .bet-amount-cont {
+    font-size: calc(1.5vh * 4 / 3);
+    margin: calc(1.5vh * 4 / 3) 0;
+  }
+
+  .total-amount {
+    right: calc(1vh * 4 / 3);
+  }
+
+  .bet-button {
+    border-radius: calc(.25vh * 4 / 3);
+    font-size: calc(2vh * 4 / 3);
+    margin-left: calc(2vh * 4 / 3);
+  }
+
+  .bet-button.deal {
+    margin: 0 calc(6vh * 4 / 3) 0 calc(30.6vh * 4 / 3);
+  }
+}

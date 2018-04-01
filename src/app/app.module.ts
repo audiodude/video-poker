@@ -7,6 +7,7 @@ import {CardsComponent} from './cards/cards.component';
 import {ControlsComponent} from './controls/controls.component';
 import {FieldComponent} from './field/field.component';
 import {PaytableComponent} from './paytable/paytable.component';
+import { BettingComponent } from './betting/betting.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {PaytableComponent} from './paytable/paytable.component';
     CardsComponent,
     ControlsComponent,
     CardComponent,
+    BettingComponent,
   ],
   imports: [BrowserModule],
   providers: [],

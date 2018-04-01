@@ -8,7 +8,6 @@ import {Card, Deck, Rank, Suit} from '../deck';
 })
 export class CardsComponent {
   @Input() selections: boolean[] = [];
+  @Input() gameOver: boolean = false;
   @Input() cards: Card[] = [];
-
-  constructor() {}
 }

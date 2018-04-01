@@ -2,10 +2,32 @@
   display: flex;
   justify-content: center;
   margin-top: 4vw;
+  position: relative;
+}
+
+.game-over-banner {
+  color: #f1c40f;
+  font-size: 6vw;
+  left: 50%;
+  letter-spacing: 1vw;
+  position: absolute;
+	text-shadow: -.25vw -.25vw 0 #fff, .25vw -.25vw 0 #fff,
+               -.25vw .25vw 0 #fff, .25vw .25vw 0 #fff;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 @media (min-width: 133.33vh) {
   :host {
     margin-top: calc(4vh * 4 / 3);
+  }
+
+  .game-over-banner {
+    font-size: calc(6vh * 4 / 3);
+    letter-spacing: calc(1vh * 4 / 3);
+	  text-shadow: calc(-.25vh * 4 / 3) calc(-.25vh * 4 / 3) 0 #fff,
+                 calc(.25vh * 4 / 3) calc(-.25vh * 4 / 3) 0 #fff,
+                 calc(-.25vh * 4 / 3) calc(.25vh * 4 / 3) 0 #fff,
+                 calc(.25vh * 4 / 3) calc(.25vh * 4 / 3) 0 #fff;
   }
 }
