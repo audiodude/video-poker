@@ -11,7 +11,9 @@
 </div>
 
 <div class="bet-buttons">
-  <button class="bet-button" (click)="betClicked(1)">Bet 1</button>
-  <button class="bet-button" (click)="betClicked(5)">Bet 5</button>
+  <div class="middle-buttons">
+    <button class="bet-button first" (click)="betClicked(1)">Bet 1</button>
+    <button class="bet-button" (click)="betClicked(5)">Bet 5</button>
+  </div>
   <button class="bet-button deal" (click)="dealClicked()">Deal</button>
 </div>

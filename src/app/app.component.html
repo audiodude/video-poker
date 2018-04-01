@@ -1,1 +1,9 @@
-<field></field>
+<paytable [hand]="hand"></paytable>
+<cards [cards]="cards" [selections]="selections" [gameOver]="gameOver"></cards>
+<controls [selections]="selections"
+          [canHold]="firstDeal"
+          (cardHeld)="onCardHeld($event)"></controls>
+<betting [betAmount]="betAmount"
+         [totalAmount]="totalAmount"
+         (deal)="deal()"
+         (bet)="bet($event)"></betting>

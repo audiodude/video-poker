@@ -14,7 +14,7 @@
 
 .bet-buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .bet-button {
@@ -23,11 +23,15 @@
   color: #000;
   cursor: pointer;
   font-size: 2vw;
-  margin-left: 2vw;
+}
+
+.bet-button.first {
+  margin-right: 2vw;
 }
 
 .bet-button.deal {
-  margin: 0 6vw 0 30.6vw;
+  position: absolute;
+  right: 6vw;
 }
 
 
@@ -44,10 +48,13 @@
   .bet-button {
     border-radius: calc(.25vh * 4 / 3);
     font-size: calc(2vh * 4 / 3);
-    margin-left: calc(2vh * 4 / 3);
+  }
+
+  .bet-button.first {
+    margin-right: calc(2vh * 4 / 3);
   }
 
   .bet-button.deal {
-    margin: 0 calc(6vh * 4 / 3) 0 calc(30.6vh * 4 / 3);
+    right: calc(6vh * 4 / 3);
   }
 }
