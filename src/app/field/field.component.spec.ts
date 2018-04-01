@@ -1,5 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
+import {BettingComponent} from '../betting/betting.component';
 import {CardComponent} from '../card/card.component';
 import {CardsComponent} from '../cards/cards.component';
 import {ControlsComponent} from '../controls/controls.component';
@@ -15,6 +16,7 @@ describe('FieldComponent', () => {
     TestBed
         .configureTestingModule({
           declarations: [
+            BettingComponent,
             CardComponent,
             CardsComponent,
             ControlsComponent,

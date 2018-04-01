@@ -335,4 +335,31 @@ describe('deck', () => {
       ])).toBe(false);
     });
   });
+
+  describe('isThreeOfAKind', () => {
+    it('returns true for three sixes', () => {
+      expect(isThreeOfAKind([
+        {
+          suit: Suit.DIAMONDS,
+          rank: Rank.SIX,
+        },
+        {
+          suit: Suit.CLUBS,
+          rank: Rank.SIX,
+        },
+        {
+          suit: Suit.SPADES,
+          rank: Rank.SIX,
+        },
+        {
+          suit: Suit.CLUBS,
+          rank: Rank.EIGHT,
+        },
+        {
+          suit: Suit.SPADES,
+          rank: Rank.TEN,
+        },
+      ])).toBe(true);
+    });
+  });
 });

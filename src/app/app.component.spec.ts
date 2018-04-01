@@ -1,6 +1,7 @@
 import {async, TestBed} from '@angular/core/testing';
 
 import {AppComponent} from './app.component';
+import {BettingComponent} from './betting/betting.component';
 import {CardComponent} from './card/card.component';
 import {CardsComponent} from './cards/cards.component';
 import {ControlsComponent} from './controls/controls.component';
@@ -13,6 +14,7 @@ describe('AppComponent', () => {
         .configureTestingModule({
           declarations: [
             AppComponent,
+            BettingComponent,
             CardsComponent,
             CardComponent,
             ControlsComponent,

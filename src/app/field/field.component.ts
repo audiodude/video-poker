@@ -13,6 +13,7 @@ export class FieldComponent {
   cards: Card[];
   deck: Deck;
   firstDeal: boolean;
+  gameOver: boolean;
   hand: Hand;
   betAmount: number = 0;
   totalAmount: number = 100;
@@ -69,7 +70,7 @@ export class FieldComponent {
 
     this.firstDeal = true;
     this.gameOver = false;
-    
+
     this.selections = [false, false, false, false, false];
     this.deck = new Deck();
     this.deck.shuffle();
