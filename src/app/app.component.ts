@@ -16,6 +16,65 @@ export class AppComponent {
   hand: Hand;
   betAmount: number = 0;
   totalAmount: number = 100;
+  newTotalAmount: number;
+
+  PAYOUTS = [
+    {
+      [Hand.ROYAL_FLUSH]: 250,
+      [Hand.STRAIGHT_FLUSH]: 50,
+      [Hand.FOUR_OF_A_KIND]: 25,
+      [Hand.FULL_HOUSE]: 9,
+      [Hand.FLUSH]: 6,
+      [Hand.STRAIGHT]: 4,
+      [Hand.THREE_OF_A_KIND]: 3,
+      [Hand.TWO_PAIR]: 2,
+      [Hand.JACKS_OR_BETTER]: 1,
+    },
+    {
+      [Hand.ROYAL_FLUSH]: 500,
+      [Hand.STRAIGHT_FLUSH]: 100,
+      [Hand.FOUR_OF_A_KIND]: 50,
+      [Hand.FULL_HOUSE]: 18,
+      [Hand.FLUSH]: 12,
+      [Hand.STRAIGHT]: 8,
+      [Hand.THREE_OF_A_KIND]: 6,
+      [Hand.TWO_PAIR]: 4,
+      [Hand.JACKS_OR_BETTER]: 2,
+    },
+    {
+      [Hand.ROYAL_FLUSH]: 750,
+      [Hand.STRAIGHT_FLUSH]: 150,
+      [Hand.FOUR_OF_A_KIND]: 75,
+      [Hand.FULL_HOUSE]: 27,
+      [Hand.FLUSH]: 18,
+      [Hand.STRAIGHT]: 12,
+      [Hand.THREE_OF_A_KIND]: 9,
+      [Hand.TWO_PAIR]: 6,
+      [Hand.JACKS_OR_BETTER]: 3,
+    },
+    {
+      [Hand.ROYAL_FLUSH]: 1000,
+      [Hand.STRAIGHT_FLUSH]: 200,
+      [Hand.FOUR_OF_A_KIND]: 100,
+      [Hand.FULL_HOUSE]: 36,
+      [Hand.FLUSH]: 24,
+      [Hand.STRAIGHT]: 16,
+      [Hand.THREE_OF_A_KIND]: 12,
+      [Hand.TWO_PAIR]: 8,
+      [Hand.JACKS_OR_BETTER]: 4,
+    },
+    {
+      [Hand.ROYAL_FLUSH]: 4000,
+      [Hand.STRAIGHT_FLUSH]: 250,
+      [Hand.FOUR_OF_A_KIND]: 125,
+      [Hand.FULL_HOUSE]: 45,
+      [Hand.FLUSH]: 30,
+      [Hand.STRAIGHT]: 20,
+      [Hand.THREE_OF_A_KIND]: 15,
+      [Hand.TWO_PAIR]: 10,
+      [Hand.JACKS_OR_BETTER]: 5,
+    },
+  ]
 
   constructor() {
     this.emptyDeal();
@@ -48,8 +107,10 @@ export class AppComponent {
         }, 200 + 200 * animationCounter);
         animationCounter++;
       }
-      this.hand = determineHand(this.cards);
-      this.payout();
+      setTimeout(() => {
+        this.hand = determineHand(this.cards);
+        this.payout();
+      }, 200 + 200 * animationCounter);
       this.firstDeal = false;
     } else {
       this.initialDeal();
@@ -57,7 +118,23 @@ export class AppComponent {
   }
 
   payout() {
-    // TODO: logic for paying the player.
+    let payout = this.PAYOUTS[this.betAmount - 1][this.hand];
+    if (payout) {
+      this.newTotalAmount = this.totalAmount + payout;
+      this.animatePayout();
+    } else {
+      this.gameOver = true;
+      this.hand = Hand.NOTHING;
+    }
+  }
+
+  animatePayout() {
+    if (this.totalAmount < this.newTotalAmount) {
+      setTimeout(() => {
+        this.totalAmount++;
+        this.animatePayout();
+      }, 100);
+    }
   }
 
   private initialDeal() {
@@ -69,6 +146,7 @@ export class AppComponent {
 
     this.firstDeal = true;
     this.gameOver = false;
+    this.hand = Hand.NOTHING;
 
     this.selections = [false, false, false, false, false];
     this.deck = new Deck();
@@ -81,7 +159,9 @@ export class AppComponent {
         this.cards[i].hidden = false;
       }, 200 + 200 * i);
     }
-    this.hand = determineHand(this.cards);
+    setTimeout(() => {
+      this.hand = determineHand(this.cards);
+    }, 200 * this.cards.length);
   }
 
   private emptyDeal() {

@@ -18,7 +18,7 @@
     Straight
   </div>
   <div class="row" [ngClass]="{'selected': isThreeOfAKind()}">
-    Three Of A Kind
+    3 Of A Kind
   </div>
   <div class="row" [ngClass]="{'selected': isTwoPair()}">
     Two Pair
@@ -27,23 +27,33 @@
     Jacks Or Better
   </div>
 </div>
-<div class="col payout">
-  <div class="row">250</div>
-  <div class="row">50</div>
-  <div class="row">25</div>
-  <div class="row">9</div>
-  <div class="row">6</div>
-  <div class="row">4</div>
-  <div class="row">3</div>
-  <div class="row">2</div>
-  <div class="row" [ngClass]="{'selected': isJacksOrBetter()}">1</div>
-</div>
-<div class="col payout">
-  <div class="row"></div>
-</div>
-<div class="col payout">
-  <div class="row"></div>
-</div>
-<div class="col payout">
-  <div class="row"></div>
+<div *ngFor="let payout of payouts" class="col payout">
+
+  <div class="row" [ngClass]="{'selected': isRoyalFlush()}">
+    {{payout[Hand.ROYAL_FLUSH]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isStraightFlush()}">
+    {{payout[Hand.STRAIGHT_FLUSH]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isFourOfAKind()}">
+    {{payout[Hand.FOUR_OF_A_KIND]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isFullHouse()}">
+    {{payout[Hand.FULL_HOUSE]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isFlush()}">
+   {{payout[Hand.FLUSH]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isStraight()}">
+   {{payout[Hand.STRAIGHT]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isThreeOfAKind()}">
+    {{payout[Hand.THREE_OF_A_KIND]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isTwoPair()}">
+    {{payout[Hand.TWO_PAIR]}}
+  </div>
+  <div class="row" [ngClass]="{'selected': isJacksOrBetter()}">
+    {{payout[Hand.JACKS_OR_BETTER]}}
+  </div>
 </div>

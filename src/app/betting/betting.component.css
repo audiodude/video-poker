@@ -34,6 +34,10 @@
   right: 6vw;
 }
 
+.bet-button.deal:disabled {
+  color: #999;
+}
+
 
 @media (min-width: 133.33vh) {
   .bet-amount-cont {

@@ -9,6 +9,10 @@ import {Hand} from '../deck';
 })
 export class PaytableComponent {
   @Input() hand: Hand = Hand.NOTHING;
+  @Input() payouts: any;
+
+  // Alias the enum for use in the template.
+  Hand = Hand;
 
   constructor() {}
 
