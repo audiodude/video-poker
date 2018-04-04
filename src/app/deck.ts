@@ -161,19 +161,15 @@ export function cardsForFourOfAKind(cards: Card[]): number[] {
       break;
     }
   }
-  return cardsWithRank(cards, quadRank);
+  if (quadRank) {
+    return cardsWithRank(cards, quadRank);
+  } else {
+    return [];
+  }
 }
 
 export function isFourOfAKind(cards: Card[]): boolean {
-  const rankMap = generateRankMap(cards);
-  const ranks = enumerateRanks();
-  let r;
-  while (r = ranks.next().value) {
-    if (rankMap[r] === 4) {
-      return true;
-    }
-  }
-  return false;
+  return cardsForFourOfAKind(cards).length > 0;
 }
 
 export function isFullHouse(cards: Card[]): boolean {
@@ -193,38 +189,55 @@ export function isFullHouse(cards: Card[]): boolean {
   return foundThree && foundPair;
 }
 
+export function cardsForThreeOfAKind(cards: Card[]): number[] {
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
+  let tripRank: Rank, r: Rank;
+  while (r = ranks.next().value) {
+    if (rankMap[r] === 3) {
+      tripRank = r;
+      break;
+    }
+  }
+
+  if (tripRank) {
+    return cardsWithRank(cards, tripRank);
+  } else {
+    return [];
+  }
+}
+
 export function isThreeOfAKind(cards: Card[]): boolean {
+  return cardsForThreeOfAKind(cards).length > 0;
+}
+
+export function cardsForTwoPair(cards: Card[]): number[] {
   const rankMap = generateRankMap(cards);
   const ranks = enumerateRanks();
   let r;
 
-  let foundThree = false;
+  const pairs = [];
   while (r = ranks.next().value) {
-    if (rankMap[r] === 3) {
-      return true;
+    if (rankMap[r] === 2) {
+      pairs.push(r);
     }
   }
-  return false;
+  if (pairs.length == 2) {
+    return cardsWithRank(cards, pairs[0])
+        .concat(cardsWithRank(cards, pairs[1]));
+  } else {
+    return [];
+  }
 }
 
 export function isTwoPair(cards: Card[]): boolean {
-  const rankMap = generateRankMap(cards);
-  const ranks = enumerateRanks();
-  let r;
-
-  let pairsFound = 0;
-  while (r = ranks.next().value) {
-    if (rankMap[r] === 2) {
-      pairsFound++;
-    }
-  }
-  return pairsFound === 2;
+  return cardsForTwoPair(cards).length > 0;
 }
 
-export function isJacksOrBetter(cards: Card[]): boolean {
+export function cardsForJacksOrBetter(cards: Card[]): number[] {
   const rankMap = generateRankMap(cards);
   const ranks = enumerateRanks();
-  let r;
+  let foundRank: Rank, r: Rank;
 
   while (r = ranks.next().value) {
     if (r !== Rank.JACK && r !== Rank.QUEEN && r !== Rank.KING &&
@@ -232,10 +245,19 @@ export function isJacksOrBetter(cards: Card[]): boolean {
       continue;
     }
     if (rankMap[r] === 2) {
-      return true;
+      foundRank = r;
     }
   }
-  return false;
+
+  if (foundRank) {
+    return cardsWithRank(cards, foundRank)
+  } else {
+    return [];
+  }
+}
+
+export function isJacksOrBetter(cards: Card[]): boolean {
+  return cardsForJacksOrBetter(cards).length > 0;
 }
 
 export function cardsWithRank(cards: Card[], r: Rank): number[] {
@@ -289,7 +311,17 @@ export function determineHand(cards: Card[]): Hand {
 export function cardsForHand(cards: Card[], hand: Hand): number[] {
   if (hand === Hand.ROYAL_FLUSH || hand === Hand.STRAIGHT_FLUSH ||
       hand === Hand.FLUSH || hand === Hand.STRAIGHT ||
-      hand == Hand.FULL_HOUSE) {
+      hand === Hand.FULL_HOUSE) {
     return [0, 1, 2, 3, 4];
+  } else if (hand === Hand.NOTHING) {
+    return [];
+  } else if (hand === Hand.FOUR_OF_A_KIND) {
+    return cardsForFourOfAKind(cards);
+  } else if (hand === Hand.THREE_OF_A_KIND) {
+    return cardsForThreeOfAKind(cards);
+  } else if (hand === Hand.TWO_PAIR) {
+    return cardsForTwoPair(cards);
+  } else if (hand === Hand.JACKS_OR_BETTER) {
+    return cardsForJacksOrBetter(cards);
   }
 }
