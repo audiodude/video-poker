@@ -5,7 +5,6 @@ import {BettingComponent} from './betting/betting.component';
 import {CardComponent} from './card/card.component';
 import {CardsComponent} from './cards/cards.component';
 import {ControlsComponent} from './controls/controls.component';
-import {FieldComponent} from './field/field.component';
 import {PaytableComponent} from './paytable/paytable.component';
 
 describe('AppComponent', () => {
@@ -18,7 +17,6 @@ describe('AppComponent', () => {
             CardsComponent,
             CardComponent,
             ControlsComponent,
-            FieldComponent,
             PaytableComponent,
           ],
         })

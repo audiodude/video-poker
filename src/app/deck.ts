@@ -116,16 +116,10 @@ export function isFlush(cards: Card[]): boolean {
 }
 
 export function isStraight(cards: Card[]): boolean {
-  let ranks = enumerateRanks();
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
   let r;
-  const rankMap = {};
-  while (r = ranks.next().value) {
-    rankMap[r] = 0;
-  }
-  for (const c of cards) {
-    rankMap[c.rank]++;
-  }
-  ranks = enumerateRanks();
+
   let straightCards = 0;
   while (r = ranks.next().value) {
     if (r == Rank.SIX && straightCards == 4 && rankMap[Rank.ACE] == 1) {
@@ -144,7 +138,7 @@ export function isStraight(cards: Card[]): boolean {
   return false;
 }
 
-export function isFourOfAKind(cards: Card[]): boolean {
+export function generateRankMap(cards: Card[]): {[key: number]: number} {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
@@ -154,7 +148,26 @@ export function isFourOfAKind(cards: Card[]): boolean {
   for (const c of cards) {
     rankMap[c.rank]++;
   }
-  ranks = enumerateRanks();
+  return rankMap;
+}
+
+export function cardsForFourOfAKind(cards: Card[]): number[] {
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
+  let quadRank: Rank, r: Rank;
+  while (r = ranks.next().value) {
+    if (rankMap[r] === 4) {
+      quadRank = r;
+      break;
+    }
+  }
+  return cardsWithRank(cards, quadRank);
+}
+
+export function isFourOfAKind(cards: Card[]): boolean {
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
+  let r;
   while (r = ranks.next().value) {
     if (rankMap[r] === 4) {
       return true;
@@ -164,16 +177,9 @@ export function isFourOfAKind(cards: Card[]): boolean {
 }
 
 export function isFullHouse(cards: Card[]): boolean {
-  let ranks = enumerateRanks();
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
   let r;
-  const rankMap = {};
-  while (r = ranks.next().value) {
-    rankMap[r] = 0;
-  }
-  for (const c of cards) {
-    rankMap[c.rank]++;
-  }
-  ranks = enumerateRanks();
 
   let foundThree = false;
   let foundPair = false;
@@ -188,16 +194,9 @@ export function isFullHouse(cards: Card[]): boolean {
 }
 
 export function isThreeOfAKind(cards: Card[]): boolean {
-  let ranks = enumerateRanks();
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
   let r;
-  const rankMap = {};
-  while (r = ranks.next().value) {
-    rankMap[r] = 0;
-  }
-  for (const c of cards) {
-    rankMap[c.rank]++;
-  }
-  ranks = enumerateRanks();
 
   let foundThree = false;
   while (r = ranks.next().value) {
@@ -209,16 +208,9 @@ export function isThreeOfAKind(cards: Card[]): boolean {
 }
 
 export function isTwoPair(cards: Card[]): boolean {
-  let ranks = enumerateRanks();
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
   let r;
-  const rankMap = {};
-  while (r = ranks.next().value) {
-    rankMap[r] = 0;
-  }
-  for (const c of cards) {
-    rankMap[c.rank]++;
-  }
-  ranks = enumerateRanks();
 
   let pairsFound = 0;
   while (r = ranks.next().value) {
@@ -230,16 +222,9 @@ export function isTwoPair(cards: Card[]): boolean {
 }
 
 export function isJacksOrBetter(cards: Card[]): boolean {
-  let ranks = enumerateRanks();
+  const rankMap = generateRankMap(cards);
+  const ranks = enumerateRanks();
   let r;
-  const rankMap = {};
-  while (r = ranks.next().value) {
-    rankMap[r] = 0;
-  }
-  for (const c of cards) {
-    rankMap[c.rank]++;
-  }
-  ranks = enumerateRanks();
 
   while (r = ranks.next().value) {
     if (r !== Rank.JACK && r !== Rank.QUEEN && r !== Rank.KING &&
@@ -253,13 +238,18 @@ export function isJacksOrBetter(cards: Card[]): boolean {
   return false;
 }
 
-export function handContainsRank(cards: Card[], r: Rank): boolean {
-  for (const c of cards) {
-    if (c.rank == r) {
-      return true;
+export function cardsWithRank(cards: Card[], r: Rank): number[] {
+  const result = [];
+  for (let i = 0; i < cards.length; i++) {
+    if (cards[i].rank === r) {
+      result.push(i);
     }
   }
-  return false;
+  return result;
+}
+
+export function handContainsRank(cards: Card[], r: Rank): boolean {
+  return cardsWithRank(cards, r).length > 0;
 }
 
 export function determineHand(cards: Card[]): Hand {
@@ -293,5 +283,13 @@ export function determineHand(cards: Card[]): Hand {
     return Hand.JACKS_OR_BETTER;
   } else {
     return Hand.NOTHING;
+  }
+}
+
+export function cardsForHand(cards: Card[], hand: Hand): number[] {
+  if (hand === Hand.ROYAL_FLUSH || hand === Hand.STRAIGHT_FLUSH ||
+      hand === Hand.FLUSH || hand === Hand.STRAIGHT ||
+      hand == Hand.FULL_HOUSE) {
+    return [0, 1, 2, 3, 4];
   }
 }
