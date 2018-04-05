@@ -13,11 +13,20 @@
   font-family: Arial, sans-serif;
   font-size: 2vw;
   line-height: 2.3vw;
-  margin: 0 .5vw;
+  padding: 0 .5vw;
 }
 
-.row.selected {
+.payout.selected {
+  background-color: red;
+}
+
+.hand .row.selected {
   color: red;
+}
+
+.payout.selected .row.selected {
+  background-color: #dd2222;
+  color: yellow;
 }
 
 .payout .row {

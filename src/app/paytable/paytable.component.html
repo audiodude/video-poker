@@ -27,8 +27,8 @@
     Jacks Or Better
   </div>
 </div>
-<div *ngFor="let payout of payouts" class="col payout">
-
+<div *ngFor="let payout of payouts; index as i" class="col payout"
+     [ngClass]="{'selected': i + 1 == betAmount }">
   <div class="row" [ngClass]="{'selected': isRoyalFlush()}">
     {{payout[Hand.ROYAL_FLUSH]}}
   </div>

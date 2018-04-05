@@ -34,7 +34,7 @@
   right: 6vw;
 }
 
-.bet-button.deal:disabled {
+.bet-button:disabled {
   color: #999;
 }
 

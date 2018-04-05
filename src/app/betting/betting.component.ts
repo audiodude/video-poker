@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class BettingComponent {
   @Input() betAmount: number;
   @Input() totalAmount: number;
+  @Input() canBet: boolean;
   @Output() bet: EventEmitter<number> = new EventEmitter<number>();
   @Output() deal: EventEmitter<boolean> = new EventEmitter<boolean>();
 

@@ -14,6 +14,7 @@ export class AppComponent {
   firstDeal: boolean;
   gameOver: boolean;
   hand: Hand;
+  clearBet: boolean;
   betAmount: number = 0;
   totalAmount: number = 100;
   newTotalAmount: number;
@@ -85,7 +86,13 @@ export class AppComponent {
   }
 
   bet(amount: number) {
-    if (amount == 1 && this.betAmount < 5) {
+    if (this.firstDeal) {
+      return;
+    }
+    if (amount === 1 && this.clearBet) {
+      this.betAmount = 1;
+      this.clearBet = false;
+    } else if (amount === 1 && this.betAmount < 5) {
       this.betAmount++;
     }
     if (amount == 5) {
@@ -112,6 +119,7 @@ export class AppComponent {
         this.payout();
       }, 200 + 200 * animationCounter);
       this.firstDeal = false;
+      this.clearBet = true;
     } else {
       this.initialDeal();
     }
@@ -139,7 +147,7 @@ export class AppComponent {
 
   private initialDeal() {
     if (this.totalAmount - this.betAmount < 0) {
-      return
+      return;
     } else {
       this.totalAmount -= this.betAmount;
     }
@@ -169,5 +177,6 @@ export class AppComponent {
     this.deck = new Deck();
     this.cards = this.deck.deal(5);
     this.gameOver = true;
+    this.clearBet = true;
   }
 }
