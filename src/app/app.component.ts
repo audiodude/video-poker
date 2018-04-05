@@ -18,6 +18,7 @@ export class AppComponent {
   betAmount: number = 0;
   totalAmount: number = 100;
   newTotalAmount: number;
+  isAnimatingPayout: boolean;
 
   PAYOUTS = [
     {
@@ -102,6 +103,10 @@ export class AppComponent {
   }
 
   deal() {
+    if (this.isAnimatingPayout) {
+      this.isAnimatingPayout = false;
+      return;
+    }
     if (this.firstDeal) {
       let animationCounter = 0;
       for (let i = 0; i < this.selections.length; i++) {
@@ -129,6 +134,7 @@ export class AppComponent {
     let payout = this.PAYOUTS[this.betAmount - 1][this.hand];
     if (payout) {
       this.newTotalAmount = this.totalAmount + payout;
+      this.isAnimatingPayout = true;
       this.animatePayout();
     } else {
       this.gameOver = true;
@@ -137,11 +143,18 @@ export class AppComponent {
   }
 
   animatePayout() {
+    if (!this.isAnimatingPayout) {
+      this.totalAmount = this.newTotalAmount;
+      return;
+    }
+
     if (this.totalAmount < this.newTotalAmount) {
       setTimeout(() => {
         this.totalAmount++;
         this.animatePayout();
-      }, 100);
+      }, 150);
+    } else {
+      this.isAnimatingPayout = false;
     }
   }
 
