@@ -47,11 +47,14 @@ export enum Hand {
   ROYAL_FLUSH,
   STRAIGHT_FLUSH,
   FOUR_OF_A_KIND,
+  FOUR_TO_A_ROYAL,
   FULL_HOUSE,
   FLUSH,
   STRAIGHT,
   THREE_OF_A_KIND,
+  FOUR_TO_A_STRAIGHT_FLUSH,
   TWO_PAIR,
+  THREE_TO_A_ROYAL_FLUSH,
   JACKS_OR_BETTER,
   NOTHING,
 }
@@ -101,6 +104,104 @@ export class Deck {
   }
 }
 
+export function cardsForAFlush(cards: Card[], n: number): number[] {
+  const suitsInHand: {[key: number]: number} =
+      {[Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0};
+  for (const c of cards) {
+    suitsInHand[c.suit]++;
+  }
+  const result = [];
+  const suits = enumerateSuits();
+  for (let s = suits.next(); s && !s.done; s = suits.next()) {
+    if (suitsInHand[s.value] >= n) {
+      for (let i = 0; i < cards.length; i++) {
+        if (cards[i].suit === s.value) {
+          result.push(i);
+        }
+      }
+    }
+  }
+  return result;
+}
+
+export function isFourToAFlush(cards: Card[]): boolean {
+  return cardsForAFlush(cards, 4).length === 4;
+}
+
+export function cardsForARoyal(cards: Card[], n: number): number[] {
+  const cardIndicesForFlush = cardsForAFlush(cards, n);
+  if (cardIndicesForFlush.length < n) {
+    return [];
+  }
+  const cardsForFlush = cardIndicesForFlush.map((i) => [i, cards[i]]);
+  const cardIndicesForRoyal = [];
+  let countForRoyal = 0;
+  for (let i = 0; i < cardsForFlush.length; i++) {
+    const c = cardsForFlush[i][1] as Card;
+    const idx = cardsForFlush[i][0] as number;
+    switch (c.rank) {
+      case Rank.TEN:
+      case Rank.JACK:
+      case Rank.QUEEN:
+      case Rank.KING:
+      case Rank.ACE:
+        cardIndicesForRoyal.push(idx);
+    }
+  }
+  if (cardIndicesForRoyal.length === n) {
+    return cardIndicesForRoyal;
+  } else {
+    return [];
+  }
+}
+
+export function isFourToARoyal(cards: Card[]): boolean {
+  return cardsForARoyal(cards, 4).length >= 4;
+}
+
+export function isThreeToARoyal(cards: Card[]): boolean {
+  return cardsForARoyal(cards, 3).length >= 3;
+}
+
+export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
+  const cardIndicesForFlush = cardsForAFlush(cards, 4);
+  if (cardIndicesForFlush.length < 4) {
+    return [];
+  }
+  const cardsForFlush = cardIndicesForFlush.map((i) => [i, cards[i]]);
+  const rankMap = generateRankMap(cardsForFlush.map((arr) => arr[1] as Card));
+  const ranks = enumerateRanks();
+  let r;
+
+  for (let i = 0; i < cardsForFlush.length; i++) {
+    const c = cardsForFlush[i][1] as Card;
+    const idx = cardsForFlush[i][0] as number;
+    const straightIndices = [];
+    let misses = 0;
+    while (r = ranks.next().value) {
+      if (r < c.rank) {
+        continue;
+      }
+      if (straightIndices.length > 0 && rankMap[r] === 0) {
+        misses++;
+      } else if (rankMap[r] === 1) {
+        straightIndices.push(idx);
+        if (straightIndices.length + misses === 5) {
+          return straightIndices;
+        }
+      }
+      if (misses > 1) {
+        return [];
+      }
+    }
+  }
+  return [];
+}
+
+export function isFourToAStraightFlush(cards: Card[]): boolean {
+  return cardsForFourToAStraightFlush(cards).length === 4;
+}
+
 export function isFlush(cards: Card[]): boolean {
   const suitsInHand =
       {[Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0};
@@ -122,7 +223,7 @@ export function isStraight(cards: Card[]): boolean {
 
   let straightCards = 0;
   while (r = ranks.next().value) {
-    if (r == Rank.SIX && straightCards == 4 && rankMap[Rank.ACE] == 1) {
+    if (r == Rank.SIX && straightCards === 4 && rankMap[Rank.ACE] === 1) {
       // Wheel straight
       return true;
     }
@@ -308,15 +409,33 @@ export function determineHand(cards: Card[]): Hand {
   }
 }
 
+export function bestCardsToHold(cards: Card[], hand: Hand): number[] {
+  if (hand === Hand.ROYAL_FLUSH || hand === Hand.STRAIGHT_FLUSH) {
+    return [0, 1, 2, 3, 4];
+  } else if (hand === Hand.FOUR_OF_A_KIND) {
+    return cardsForFourOfAKind(cards);
+  } else if (hand === Hand.FOUR_TO_A_ROYAL) {
+    return cardsForFourToARoyal(cards);
+  } else if (hand === Hand.THREE_OF_A_KIND) {
+    return cardsForThreeOfAKind(cards);
+  } else if (
+      hand === Hand.STRAIGHT || hand === Hand.FLUSH ||
+      hand == Hand.FULL_HOUSE) {
+    return [0, 1, 2, 3, 4];
+  } else if (hand === Hand.FOUR_TO_A_STRAIGHT_FLUSH) {
+    return cardsForFourToAStraightFlush(cards);
+  } else if (hand === Hand.TWO_PAIR) {
+    return cardsForTwoPair(cards);
+  } else if (hand === Hand.THREE_TO_A_ROYAL_FLUSH) {
+  }
+}
+
 export function cardsForHand(cards: Card[], hand: Hand): number[] {
   if (hand === Hand.ROYAL_FLUSH || hand === Hand.STRAIGHT_FLUSH ||
       hand === Hand.FLUSH || hand === Hand.STRAIGHT ||
       hand === Hand.FULL_HOUSE) {
-    return [0, 1, 2, 3, 4];
   } else if (hand === Hand.NOTHING) {
-    return [];
   } else if (hand === Hand.FOUR_OF_A_KIND) {
-    return cardsForFourOfAKind(cards);
   } else if (hand === Hand.THREE_OF_A_KIND) {
     return cardsForThreeOfAKind(cards);
   } else if (hand === Hand.TWO_PAIR) {

@@ -1,4 +1,4 @@
-import {cardsForHand, Deck, determineHand, enumerateRanks, enumerateSuits, generateRankMap, Hand, isFlush, isFourOfAKind, isFullHouse, isJacksOrBetter, isStraight, isThreeOfAKind, isTwoPair, Rank, Suit} from './deck';
+import {cardsForHand, Deck, determineHand, enumerateRanks, enumerateSuits, generateRankMap, Hand, isFlush, isFourOfAKind, isFourToAFlush, isFourToARoyal, isFourToAStraightFlush, isFullHouse, isJacksOrBetter, isStraight, isThreeOfAKind, isThreeToARoyal, isTwoPair, Rank, Suit} from './deck';
 
 describe('deck', () => {
   it('contains 4 suits', () => {
@@ -83,128 +83,6 @@ describe('deck', () => {
               .toEqual(jasmine.objectContaining(x.expected));
         });
       }
-    });
-  });
-
-  describe('cardsForHand', () => {
-    it('returns 0-5 for a royal flush', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.SPADES, rank: Rank.ACE},
-                   {suit: Suit.SPADES, rank: Rank.KING},
-                   {suit: Suit.SPADES, rank: Rank.QUEEN},
-                   {suit: Suit.SPADES, rank: Rank.JACK},
-                   {suit: Suit.SPADES, rank: Rank.TEN},
-                 ],
-                 Hand.ROYAL_FLUSH))
-          .toEqual([0, 1, 2, 3, 4]);
-    });
-
-    it('returns 0-5 for straight flush', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.SPADES, rank: Rank.NINE},
-                   {suit: Suit.SPADES, rank: Rank.KING},
-                   {suit: Suit.SPADES, rank: Rank.QUEEN},
-                   {suit: Suit.SPADES, rank: Rank.JACK},
-                   {suit: Suit.SPADES, rank: Rank.TEN},
-                 ],
-                 Hand.STRAIGHT_FLUSH))
-          .toEqual([0, 1, 2, 3, 4]);
-    });
-
-    it('returns 0-5 for kings full of sixes', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.DIAMONDS, rank: Rank.SIX},
-                   {suit: Suit.DIAMONDS, rank: Rank.KING},
-                   {suit: Suit.CLUBS, rank: Rank.KING},
-                   {suit: Suit.CLUBS, rank: Rank.SIX},
-                   {suit: Suit.SPADES, rank: Rank.KING},
-                 ],
-                 Hand.FULL_HOUSE))
-          .toEqual([0, 1, 2, 3, 4]);
-    });
-
-    it('returns 0-5 for flush', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.SPADES, rank: Rank.NINE},
-                   {suit: Suit.SPADES, rank: Rank.KING},
-                   {suit: Suit.SPADES, rank: Rank.TWO},
-                   {suit: Suit.SPADES, rank: Rank.JACK},
-                   {suit: Suit.SPADES, rank: Rank.TEN},
-                 ],
-                 Hand.FLUSH))
-          .toEqual([0, 1, 2, 3, 4]);
-    });
-
-    it('returns 0-5 for a straight', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.DIAMONDS, rank: Rank.THREE},
-                   {suit: Suit.CLUBS, rank: Rank.FOUR},
-                   {suit: Suit.SPADES, rank: Rank.FIVE},
-                   {suit: Suit.HEARTS, rank: Rank.SIX},
-                   {suit: Suit.SPADES, rank: Rank.SEVEN},
-                 ],
-                 Hand.STRAIGHT))
-          .toEqual([0, 1, 2, 3, 4]);
-    });
-
-    it('returns the right indices for four of a kind', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.DIAMONDS, rank: Rank.ACE},
-                   {suit: Suit.CLUBS, rank: Rank.ACE},
-                   {suit: Suit.SPADES, rank: Rank.TEN},
-                   {suit: Suit.SPADES, rank: Rank.ACE},
-                   {suit: Suit.HEARTS, rank: Rank.ACE},
-                 ],
-                 Hand.FOUR_OF_A_KIND))
-          .toEqual([0, 1, 3, 4]);
-    });
-
-    it('returns the right indices for three of a kind', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.DIAMONDS, rank: Rank.SIX},
-                   {suit: Suit.CLUBS, rank: Rank.ACE},
-                   {suit: Suit.SPADES, rank: Rank.TEN},
-                   {suit: Suit.SPADES, rank: Rank.ACE},
-                   {suit: Suit.HEARTS, rank: Rank.ACE},
-                 ],
-                 Hand.THREE_OF_A_KIND))
-          .toEqual([1, 3, 4]);
-    });
-
-
-    it('returns the right indices for a pair of tens and a pair of twos',
-       () => {
-         expect(cardsForHand(
-                    [
-                      {suit: Suit.DIAMONDS, rank: Rank.TEN},
-                      {suit: Suit.CLUBS, rank: Rank.TWO},
-                      {suit: Suit.DIAMONDS, rank: Rank.TWO},
-                      {suit: Suit.CLUBS, rank: Rank.EIGHT},
-                      {suit: Suit.HEARTS, rank: Rank.TEN},
-                    ],
-                    Hand.TWO_PAIR)
-                    .sort())
-             .toEqual([0, 1, 2, 4]);
-       });
-
-    it('returns the right indicies for a pair of jacks', () => {
-      expect(cardsForHand(
-                 [
-                   {suit: Suit.DIAMONDS, rank: Rank.JACK},
-                   {suit: Suit.HEARTS, rank: Rank.JACK},
-                   {suit: Suit.CLUBS, rank: Rank.TWO},
-                   {suit: Suit.CLUBS, rank: Rank.SIX},
-                   {suit: Suit.CLUBS, rank: Rank.EIGHT},
-                 ],
-                 Hand.JACKS_OR_BETTER))
-          .toEqual([0, 1]);
     });
   });
 
@@ -671,6 +549,145 @@ describe('deck', () => {
         {suit: Suit.CLUBS, rank: Rank.SIX},
         {suit: Suit.CLUBS, rank: Rank.EIGHT},
       ])).toBe(Hand.JACKS_OR_BETTER);
+    });
+  });
+
+  describe('isFourToAFlush', () => {
+    it('returns true when there is four to a flush', () => {
+      expect(isFourToAFlush([
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.HEARTS, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.SPADES, rank: Rank.TEN},
+      ])).toBe(true);
+    });
+
+    it('returns true when there is four to a different flush', () => {
+      expect(isFourToAFlush([
+        {suit: Suit.HEARTS, rank: Rank.ACE},
+        {suit: Suit.HEARTS, rank: Rank.TWO},
+        {suit: Suit.HEARTS, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.HEARTS, rank: Rank.SEVEN},
+      ])).toBe(true);
+    });
+
+    it('returns false when there is not four to a flush', () => {
+      expect(isFourToAFlush([
+        {suit: Suit.HEARTS, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.TWO},
+        {suit: Suit.HEARTS, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.HEARTS, rank: Rank.SEVEN},
+      ])).toBe(false);
+    });
+  });
+
+  describe('isFourToARoyal', () => {
+    it('returns true when there is four to a royal', () => {
+      expect(isFourToARoyal([
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.DIAMONDS, rank: Rank.TEN},
+      ])).toBe(true);
+    });
+
+    it('returns true when there is a pat flush and four to a royal', () => {
+      expect(isFourToARoyal([
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.SPADES, rank: Rank.TWO},
+      ])).toBe(true);
+    });
+
+    it('in any order when there is four to a royal', () => {
+      expect(isFourToARoyal([
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.DIAMONDS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.KING},
+      ])).toBe(true);
+    });
+
+    it('returns false when there is not four to a royal', () => {
+      expect(isFourToARoyal([
+        {suit: Suit.SPADES, rank: Rank.NINE},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.DIAMONDS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.KING},
+      ])).toBe(false);
+    });
+  });
+
+  describe('isFourToAStraightFlush', () => {
+    it('returns true when there is four to a straight flush', () => {
+      expect(isFourToAStraightFlush([
+        {suit: Suit.SPADES, rank: Rank.NINE},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.DIAMONDS, rank: Rank.TWO},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.SPADES, rank: Rank.TEN},
+      ])).toBe(true);
+    });
+
+    it('returns true when there is a pat flush and four to a straight flush',
+       () => {
+         expect(isFourToAStraightFlush([
+           {suit: Suit.SPADES, rank: Rank.NINE},
+           {suit: Suit.SPADES, rank: Rank.KING},
+           {suit: Suit.SPADES, rank: Rank.TWO},
+           {suit: Suit.SPADES, rank: Rank.JACK},
+           {suit: Suit.SPADES, rank: Rank.TEN},
+         ])).toBe(true);
+       });
+  });
+
+  describe('isThreeToARoyal', () => {
+    it('returns true when there is three to a royal', () => {
+      expect(isThreeToARoyal([
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+        {suit: Suit.CLUBS, rank: Rank.JACK},
+        {suit: Suit.DIAMONDS, rank: Rank.TEN},
+      ])).toBe(true);
+    });
+
+    it('returns true when there is a pat flush and four to a royal', () => {
+      expect(isThreeToARoyal([
+        {suit: Suit.SPADES, rank: Rank.ACE},
+        {suit: Suit.SPADES, rank: Rank.KING},
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.THREE},
+        {suit: Suit.SPADES, rank: Rank.TWO},
+      ])).toBe(true);
+    });
+
+    it('in any order when there is three to a royal', () => {
+      expect(isThreeToARoyal([
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.DIAMONDS, rank: Rank.ACE},
+        {suit: Suit.DIAMONDS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.KING},
+      ])).toBe(true);
+    });
+
+    it('returns false when there is not three to a royal', () => {
+      expect(isThreeToARoyal([
+        {suit: Suit.SPADES, rank: Rank.NINE},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.DIAMONDS, rank: Rank.ACE},
+        {suit: Suit.DIAMONDS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.KING},
+      ])).toBe(false);
     });
   });
 });
