@@ -659,6 +659,29 @@ export function bestCardsToHold(cards: Card[]): number[] {
   }
 
   indices = cardsForTwoSuitedHighCards(cards);
+  if (indices.length > 0) {
+    return indices;
+  }
 
   indices = cardsForThreeToAStraightFlush(cards);
+  if (indices.length > 0) {
+    return indices;
+  }
+
+  indices = cardsForTwoUnsuitedHighCards(cards);
+  if (indices.length > 0) {
+    return indices;
+  }
+
+  indices = cardsForSuitedTenX(cards);
+  if (indices.length > 0) {
+    return indices;
+  }
+
+  indices = cardsForOneHighCard(cards);
+  if (indices.length > 0) {
+    return indices;
+  }
+
+  return [];
 }
