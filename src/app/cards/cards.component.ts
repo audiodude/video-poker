@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Card, Deck, Rank, Suit} from '../deck';
+import {Card, Deck, Rank, Suit} from '../logic/deck';
 
 @Component({
   selector: 'cards',

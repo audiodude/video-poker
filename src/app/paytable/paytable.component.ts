@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {Hand} from '../deck';
+import {Hand} from '../logic/deck';
 
 @Component({
   selector: 'paytable',

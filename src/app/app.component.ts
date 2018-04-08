@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {Card, Deck, determineHand, Hand} from './deck';
+import {Card, Deck, determineHand, Hand} from './logic/deck';
 
 @Component({
   selector: 'app-root',
