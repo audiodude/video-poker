@@ -1,4 +1,4 @@
-import {cardsForHand, Deck, determineHand, enumerateRanks, enumerateSuits, generateRankMap, Hand, isFlush, isFourOfAKind, isFourToAFlush, isFourToARoyal, isFourToAStraightFlush, isFullHouse, isJacksOrBetter, isStraight, isThreeOfAKind, isThreeToARoyal, isTwoPair, Rank, Suit} from './deck';
+import {cardsForFourToAnOutsideStraight, cardsForOneHighCard, cardsForSuitedTenX, cardsForThreeToAStraightFlush, cardsForTwoPair, cardsForTwoSuitedHighCards, cardsForTwoUnsuitedHighCards, Deck, determineHand, enumerateRanks, enumerateSuits, generateRankMap, Hand, isFlush, isFourOfAKind, isFourToAFlush, isFourToARoyal, isFourToAStraightFlush, isFullHouse, isJacksOrBetter, isStraight, isThreeOfAKind, isThreeToARoyal, isTwoPair, Rank, Suit} from './deck';
 
 describe('deck', () => {
   it('contains 4 suits', () => {
@@ -326,6 +326,16 @@ describe('deck', () => {
         {suit: Suit.SPADES, rank: Rank.QUEEN},
       ])).toBe(true);
     });
+
+    it('returns false when there is not a straight', () => {
+      expect(isStraight([
+        {suit: Suit.DIAMONDS, rank: Rank.ACE},
+        {suit: Suit.CLUBS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+        {suit: Suit.HEARTS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.QUEEN},
+      ])).toBe(false);
+    })
   });
 
   describe('isFlush', () => {
@@ -637,6 +647,17 @@ describe('deck', () => {
       ])).toBe(true);
     });
 
+    it('returns true when there is a different four to a straight flush',
+       () => {
+         expect(isFourToAStraightFlush([
+           {suit: Suit.SPADES, rank: Rank.JACK},
+           {suit: Suit.SPADES, rank: Rank.TEN},
+           {suit: Suit.SPADES, rank: Rank.EIGHT},
+           {suit: Suit.SPADES, rank: Rank.QUEEN},
+           {suit: Suit.DIAMONDS, rank: Rank.TWO},
+         ])).toBe(true);
+       });
+
     it('returns true when there is a pat flush and four to a straight flush',
        () => {
          expect(isFourToAStraightFlush([
@@ -688,6 +709,243 @@ describe('deck', () => {
         {suit: Suit.DIAMONDS, rank: Rank.TEN},
         {suit: Suit.SPADES, rank: Rank.KING},
       ])).toBe(false);
+    });
+  });
+
+  describe('cardsForTwoPair', () => {
+    it('returns the right indices for two pair', () => {
+      expect(cardsForTwoPair([
+               {suit: Suit.DIAMONDS, rank: Rank.TEN},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.CLUBS, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+               {suit: Suit.CLUBS, rank: Rank.EIGHT},
+             ]).sort())
+          .toEqual([0, 1, 2, 3]);
+    });
+
+    it('returns the right indices for two pair in any order', () => {
+      expect(cardsForTwoPair([
+               {suit: Suit.CLUBS, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.TEN},
+               {suit: Suit.CLUBS, rank: Rank.EIGHT},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([0, 1, 3, 4]);
+    });
+
+    it('returns empty array when there is not two pair', () => {
+      expect(cardsForTwoPair([
+               {suit: Suit.CLUBS, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.JACK},
+               {suit: Suit.CLUBS, rank: Rank.EIGHT},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([]);
+    });
+  });
+
+  describe('cardsForFourToAnOutsideStraight', () => {
+    it('returns the right indices for four to an outside straight', () => {
+      expect(cardsForFourToAnOutsideStraight([
+               {suit: Suit.DIAMONDS, rank: Rank.ACE},
+               {suit: Suit.CLUBS, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+             ]).sort())
+          .toEqual([1, 2, 3, 4]);
+    });
+
+    it('returns the right indices when there are multiple options', () => {
+      expect(cardsForFourToAnOutsideStraight([
+               {suit: Suit.DIAMONDS, rank: Rank.NINE},
+               {suit: Suit.CLUBS, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+             ]).sort())
+          .toEqual([0, 1, 3, 4]);
+    });
+
+    it('returns empty array when there is not four to an outside straight',
+       () => {
+         expect(cardsForFourToAnOutsideStraight([
+                  {suit: Suit.DIAMONDS, rank: Rank.KING},
+                  {suit: Suit.CLUBS, rank: Rank.JACK},
+                  {suit: Suit.SPADES, rank: Rank.NINE},
+                  {suit: Suit.HEARTS, rank: Rank.TEN},
+                  {suit: Suit.SPADES, rank: Rank.TWO},
+                ]).sort())
+             .toEqual([]);
+       });
+  });
+
+  describe('cardsForTwoSuitedHighCards', () => {
+    it('returns the right indices for two suited high cards', () => {
+      expect(cardsForTwoSuitedHighCards([
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+               {suit: Suit.SPADES, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+             ]).sort())
+          .toEqual([1, 4]);
+    });
+
+    it('returns empty array when there are not two suited high cards', () => {
+      expect(cardsForTwoSuitedHighCards([
+               {suit: Suit.DIAMONDS, rank: Rank.KING},
+               {suit: Suit.CLUBS, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([]);
+    });
+  });
+
+  describe('cardsForThreeToAStraightFlush', () => {
+    it('returns the right indices for three to a straight flush with two gaps',
+       () => {
+         expect(cardsForThreeToAStraightFlush([
+                  {suit: Suit.DIAMONDS, rank: Rank.TWO},
+                  {suit: Suit.DIAMONDS, rank: Rank.THREE},
+                  {suit: Suit.DIAMONDS, rank: Rank.SIX},
+                  {suit: Suit.HEARTS, rank: Rank.TEN},
+                  {suit: Suit.SPADES, rank: Rank.QUEEN},
+                ]).sort())
+             .toEqual([0, 1, 2]);
+       });
+
+    it('returns the right indices for three to a straight flush with one gap',
+       () => {
+         expect(cardsForThreeToAStraightFlush([
+                  {suit: Suit.DIAMONDS, rank: Rank.TWO},
+                  {suit: Suit.DIAMONDS, rank: Rank.THREE},
+                  {suit: Suit.HEARTS, rank: Rank.TEN},
+                  {suit: Suit.SPADES, rank: Rank.QUEEN},
+                  {suit: Suit.DIAMONDS, rank: Rank.FIVE},
+                ]).sort())
+             .toEqual([0, 1, 4]);
+       });
+
+    it('returns the right indices in any order', () => {
+      expect(cardsForThreeToAStraightFlush([
+               {suit: Suit.DIAMONDS, rank: Rank.FIVE},
+               {suit: Suit.DIAMONDS, rank: Rank.THREE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([0, 1, 4]);
+    })
+  });
+
+  describe('cardsForTwoUnsuitedHighCards', () => {
+    it('returns the right indices for two unsuited high cards', () => {
+      expect(cardsForTwoUnsuitedHighCards([
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+             ]).sort())
+          .toEqual([1, 4]);
+    });
+
+    it('returns the lowest indices for two unsuited high cards', () => {
+      expect(cardsForTwoUnsuitedHighCards([
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.ACE},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+             ]).sort())
+          .toEqual([1, 4]);
+    });
+
+    it('returns empty array when there are not two unsuited high cards', () => {
+      expect(cardsForTwoUnsuitedHighCards([
+               {suit: Suit.DIAMONDS, rank: Rank.KING},
+               {suit: Suit.CLUBS, rank: Rank.THREE},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([]);
+    });
+  });
+
+  describe('cardsForSuitedTenX', () => {
+    it('returns the right indices for suited ten/jack', () => {
+      expect(cardsForSuitedTenX([
+               {suit: Suit.DIAMONDS, rank: Rank.TEN},
+               {suit: Suit.DIAMONDS, rank: Rank.JACK},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([0, 1]);
+    });
+
+    it('returns the right indices for suited ten/queen', () => {
+      expect(cardsForSuitedTenX([
+               {suit: Suit.DIAMONDS, rank: Rank.QUEEN},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.DIAMONDS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([0, 3]);
+    });
+
+    it('returns the right indices for suited ten/king', () => {
+      expect(cardsForSuitedTenX([
+               {suit: Suit.DIAMONDS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.KING},
+             ]).sort())
+          .toEqual([0, 4]);
+    });
+
+    it('returns empty array when there are not two unsuited high cards', () => {
+      expect(cardsForSuitedTenX([
+               {suit: Suit.DIAMONDS, rank: Rank.KING},
+               {suit: Suit.CLUBS, rank: Rank.THREE},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([]);
+    });
+  });
+
+  describe('cardsForOneHighCard', () => {
+    it('returns the right indices for one high card', () => {
+      expect(cardsForOneHighCard([
+               {suit: Suit.DIAMONDS, rank: Rank.TWO},
+               {suit: Suit.DIAMONDS, rank: Rank.SIX},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.QUEEN},
+             ]).sort())
+          .toEqual([4]);
+    });
+
+    it('returns empty array when there are no high cards', () => {
+      expect(cardsForOneHighCard([
+               {suit: Suit.DIAMONDS, rank: Rank.SIX},
+               {suit: Suit.CLUBS, rank: Rank.THREE},
+               {suit: Suit.SPADES, rank: Rank.NINE},
+               {suit: Suit.HEARTS, rank: Rank.TEN},
+               {suit: Suit.SPADES, rank: Rank.TWO},
+             ]).sort())
+          .toEqual([]);
     });
   });
 });
