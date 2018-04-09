@@ -141,7 +141,6 @@ export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
   const cardsForFlush =
       cardIndicesForFlush.map((i) => [i, cards[i]])
           .sort((a, b) => (a[1] as Card).rank - (b[1] as Card).rank);
-  const rankMap = generateRankMap(cardsForFlush.map((arr) => arr[1] as Card));
 
   let ranks = enumerateRanks();
   let r;
@@ -149,18 +148,21 @@ export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
   while (r = ranks.next().value) {
     rankToIndices[r] = [];
   }
-  for (let i = 0; i < cards.length; i++) {
-    rankToIndices[cards[i].rank].push(i);
+  for (let i = 0; i < cardsForFlush.length; i++) {
+    rankToIndices[(cardsForFlush[i][1] as Card).rank].push(cardsForFlush[i][0]);
   }
 
-  const straightIndices = [];
+  ranks = enumerateRanks();
+  let straightIndices = [];
   let misses = 0;
-  for (let i = 0; i < cardsForFlush.length; i++) {
-    const idx = cardsForFlush[i][0] as number;
-    const c = cardsForFlush[i][1] as Card;
-    const r = c.rank;
+  while (r = ranks.next().value) {
     if (straightIndices.length > 0 && rankToIndices[r].length === 0) {
-      misses++;
+      if (misses > 1) {
+        straightIndices = [];
+        misses = 0;
+      } else {
+        misses++;
+      }
     } else if (rankToIndices[r].length >= 1) {
       straightIndices.push(rankToIndices[r][0]);
       if (straightIndices.length === 4 && misses < 2) {
@@ -325,7 +327,6 @@ export function cardsForSuitedTenX(cards: Card[]): number[] {
   }
 
   for (let i = 0; i < cards.length; i++) {
-    console.log(Rank.KING, cards[i].rank);
     if (cards[i].rank === Rank.QUEEN || cards[i].rank === Rank.JACK ||
         cards[i].rank === Rank.KING) {
       const suitIdx = tenSuits.indexOf(cards[i].suit);

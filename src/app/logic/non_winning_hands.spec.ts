@@ -314,7 +314,19 @@ describe('non_winning_hands module', () => {
                 ])
                  .sort())
           .toEqual([0, 1, 4]);
-    })
+    });
+
+    it('returns empty when there is not three to a straight flush', () => {
+      expect(nwh.cardsForThreeToAStraightFlush([
+                  {suit: Suit.DIAMONDS, rank: Rank.FIVE},
+                  {suit: Suit.CLUBS, rank: Rank.THREE},
+                  {suit: Suit.HEARTS, rank: Rank.TEN},
+                  {suit: Suit.SPADES, rank: Rank.QUEEN},
+                  {suit: Suit.DIAMONDS, rank: Rank.TWO},
+                ])
+                 .sort())
+          .toEqual([]);
+    });
   });
 
   describe('cardsForTwoUnsuitedHighCards', () => {
