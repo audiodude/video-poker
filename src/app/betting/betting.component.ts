@@ -15,6 +15,16 @@ export class BettingComponent {
   @Output()
   denominationChange: EventEmitter<number> = new EventEmitter<number>();
 
+  showDollars: boolean = false;
+
+  totalAmountDollars() {
+    return (this.totalAmount * this.denomination).toFixed(2);
+  }
+
+  totalAmountClicked() {
+    this.showDollars = !this.showDollars;
+  }
+
   betClicked(amount: number) {
     this.bet.emit(amount);
   }

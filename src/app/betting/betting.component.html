@@ -5,8 +5,13 @@
   <span *ngIf="!betAmount" class="bet-amount">
     Place bet
   </span>
-  <span class="total-amount">
-    {{totalAmount}} {{totalAmount > 1 ? 'credits' : 'credit'}}
+  <span class="total-amount" (click)="totalAmountClicked()">
+    <span *ngIf="!showDollars">
+      {{totalAmount}} {{totalAmount > 1 ? 'credits' : 'credit'}}
+    </span>
+    <span *ngIf="showDollars">
+      ${{totalAmountDollars()}}
+    </span>
   </span>
 </div>
 
