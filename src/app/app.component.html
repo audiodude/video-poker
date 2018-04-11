@@ -6,5 +6,7 @@
 <betting [betAmount]="betAmount"
          [totalAmount]="totalAmount"
          [canBet]="!firstDeal"
+         [denomination]="denomination"
          (deal)="deal()"
-         (bet)="bet($event)"></betting>
+         (bet)="bet($event)"
+         (denominationChange)="onDenominationChange($event)"></betting>

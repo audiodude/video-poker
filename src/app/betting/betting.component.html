@@ -14,8 +14,15 @@
   <div class="middle-buttons">
     <button [disabled]="!canBet" class="bet-button first"
             (click)="betClicked(1)">Bet 1</button>
+
+    <span class="denomination" (click)="denominationClicked()">
+      <span *ngIf="denomination === 0.25">25¢</span>
+      <span *ngIf="denomination === 0.05">&nbsp;5¢</span>
+    </span>
+
     <button [disabled]="!canBet" class="bet-button"
             (click)="betClicked(5)">Bet 5</button>
   </div>
   <button [disabled]="!betAmount" class="bet-button deal" (click)="dealClicked()">Deal</button>
 </div>
+

@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   clearBet: boolean;
   betAmount: number = 0;
   totalAmount: number = 100;
+  denomination = 0.25;
   newTotalAmount: number;
   isAnimatingPayout: boolean;
 
@@ -101,6 +102,11 @@ export class AppComponent implements OnInit {
       this.betAmount = 5;
       this.initialDeal();
     }
+  }
+
+  onDenominationChange(newDenomination) {
+    this.totalAmount = this.totalAmount * this.denomination / newDenomination;
+    this.denomination = newDenomination;
   }
 
   deal() {

@@ -9,8 +9,11 @@ export class BettingComponent {
   @Input() betAmount: number;
   @Input() totalAmount: number;
   @Input() canBet: boolean;
+  @Input() denomination: number;
   @Output() bet: EventEmitter<number> = new EventEmitter<number>();
   @Output() deal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output()
+  denominationChange: EventEmitter<number> = new EventEmitter<number>();
 
   betClicked(amount: number) {
     this.bet.emit(amount);
@@ -18,5 +21,10 @@ export class BettingComponent {
 
   dealClicked() {
     this.deal.emit(true);
+  }
+
+  denominationClicked() {
+    const newDenomination = this.denomination === 0.25 ? 0.05 : 0.25;
+    this.denominationChange.emit(newDenomination);
   }
 }
