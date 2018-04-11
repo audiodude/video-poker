@@ -10,7 +10,7 @@
 .total-amount {
   color: yellow;
   position: absolute;
-  right: 1vw;
+  right: 2vw;
 }
 
 .bet-buttons {
@@ -35,7 +35,7 @@
   position: absolute;
   font-size: 3.5vw;
   margin-top: 0;
-  right: 6vw;
+  right: 2vw;
 }
 
 .bet-button:disabled {
@@ -50,7 +50,7 @@
   }
 
   .total-amount {
-    right: calc(1vh * 4 / 3);
+    right: calc(2vh * 4 / 3);
   }
 
   .bet-button {
@@ -66,6 +66,6 @@
   .bet-button.deal {
     font-size: calc(3.5vh * 4 / 3);
     margin-top: 0;
-    right: calc(1vh * 4 / 3);
+    right: calc(2vh * 4 / 3);
   }
 }
