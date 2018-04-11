@@ -9,11 +9,15 @@ import {Card} from '../logic/deck';
 export class CardComponent {
   @Input() value: Card;
   @Input() held: boolean;
+  @Input() idx: number;
 
   constructor() {}
 
   getClass(): string[] {
     const classes = [];
+    if (this.idx === 4) {
+      classes.push('last');
+    }
     if (this.value) {
       classes.push(this.value.hidden ? 'hidden ' : '');
       classes.push(`s-${this.value.suit}`);

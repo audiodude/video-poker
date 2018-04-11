@@ -18,7 +18,7 @@
   color: white;
   cursor: pointer;
   font-size: 2vw;
-  margin: 0 3.4vw;
+  margin: 0 5.2vw;
   padding: 1vw 2vw;
   position: relative;
   vertical-align: top;
@@ -46,7 +46,7 @@
 
   .button {
     border-radius: calc(.5vh * 4 / 3);
-    margin: 0 calc(3.4vh * 4 / 3);
+    margin: 0 calc(5.2vh * 4 / 3);
     padding: calc(1vh * 4 / 3) calc(2vh * 4 / 3);
     font-size: calc(2vh * 4 / 3);
     text-shadow: 0 calc(.125vh * 4 / 3) calc(.25vh * 4 / 3) rgba(0, 0, 0, 0.25);

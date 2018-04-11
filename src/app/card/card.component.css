@@ -1,10 +1,10 @@
 .card {
   background-repeat: no-repeat;
   background-size: contain;
-  height: 20.328vw;
-  margin-right: 1vw;
+  height: 24vw;
+  margin-right: 2vw;
   position: relative;
-  width: 14vw;
+  width: 16.528vw;
 }
 
 .held-banner {
@@ -18,25 +18,28 @@
   top: 50%;
   transform: translateY(-50%);
   text-align: center;
-  width: 14vw;
+  width: 16.528vw;
 }
 
 @media (min-width: 133.33vh) {
   .card {
-    height: calc(20.328vh * 4 / 3);
-    margin-right: 1.33vh;
+    height: calc(24vh * 4 / 3);
+    margin-right: calc(2vh * 4 / 3);
     position: relative;
-    width: calc(14vh * 4 / 3);
+    width: calc(16.528vh * 4 / 3);
   }
 
   .held-banner {
     font-size: calc(4vh * 4 / 3);
     height: calc(4vh * 4 / 3);
     line-height: calc(4vh * 4 / 3);
-    width: calc(14vh * 4 / 3);
+    width: calc(16.528vh * 4 / 3);
   }
 }
 
+.card.last {
+  margin-right: 0;
+}
 
 .r-2.s-0 {
   background-image: url(../../assets/img/cards/2_of_spades.png);
