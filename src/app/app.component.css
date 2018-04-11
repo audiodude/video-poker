@@ -12,10 +12,24 @@
   width: 100vw; 
 }
 
+.optimal {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 2vw;
+  margin-top: 1vw;
+  text-align: center;
+}
+
 @media (min-width: 133.33vh) {
   :host {
     height: 100vh;
     width: 133.33vh;
+  }
+
+  .optimal {
+    font-size: calc(2vh * 4 / 3);
+    margin-top: calc(1vh * 4 / 3);
   }
 }
 

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 import {Card, Deck, Hand} from './logic/deck';
+import {bestCardsToHold} from './logic/non_winning_hands';
 import {determineHand} from './logic/winning_hands';
 
 @Component({
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   deck: Deck;
   firstDeal: boolean;
   gameOver: boolean;
+  showOptimal: boolean;
   hand: Hand;
   clearBet: boolean;
   betAmount: number = 0;
@@ -21,6 +23,8 @@ export class AppComponent implements OnInit {
   denomination = 0.25;
   newTotalAmount: number;
   isAnimatingPayout: boolean;
+  optimalHand: number[];
+  streak = 0;
 
   PAYOUTS = [
     {
@@ -129,6 +133,7 @@ export class AppComponent implements OnInit {
       setTimeout(() => {
         this.hand = determineHand(this.cards);
         this.payout();
+        this.showOptimalHand();
       }, 200 + 200 * animationCounter);
       this.firstDeal = false;
       this.clearBet = true;
@@ -165,6 +170,19 @@ export class AppComponent implements OnInit {
     }
   }
 
+  showOptimalHand() {
+    let bestHand = true;
+    for (const idx of this.optimalHand) {
+      bestHand = bestHand && this.selections[idx];
+    }
+    this.showOptimal = bestHand;
+    if (this.showOptimal) {
+      this.streak++;
+    } else {
+      streak = 0;
+    }
+  }
+
   private initialDeal() {
     if (this.totalAmount - this.betAmount < 0) {
       return;
@@ -174,6 +192,7 @@ export class AppComponent implements OnInit {
 
     this.firstDeal = true;
     this.gameOver = false;
+    this.showOptimal = false;
     this.hand = Hand.NOTHING;
 
     this.selections = [false, false, false, false, false];
@@ -189,6 +208,7 @@ export class AppComponent implements OnInit {
     }
     setTimeout(() => {
       this.hand = determineHand(this.cards);
+      this.optimalHand = bestCardsToHold(this.cards);
     }, 200 * this.cards.length);
   }
 

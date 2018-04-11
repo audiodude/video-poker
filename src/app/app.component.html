@@ -10,3 +10,8 @@
          (deal)="deal()"
          (bet)="bet($event)"
          (denominationChange)="onDenominationChange($event)"></betting>
+
+<div *ngIf="showOptimal" class="optimal">
+  <div class="message">Best cards chosen!</div>
+  <div *ngIf="streak > 1" class="streak">Streak: {{streak}}</div>
+</div>
