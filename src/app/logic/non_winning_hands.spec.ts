@@ -12,6 +12,16 @@ describe('non_winning_hands module', () => {
         {suit: Suit.SPADES, rank: Rank.JACK},
       ])).toEqual([1, 4]);
     });
+
+    it('returns the right indices for high pair', () => {
+      expect(nwh.bestCardsToHold([
+        {suit: Suit.HEARTS, rank: Rank.FIVE},
+        {suit: Suit.DIAMONDS, rank: Rank.FOUR},
+        {suit: Suit.DIAMONDS, rank: Rank.KING},
+        {suit: Suit.CLUBS, rank: Rank.KING},
+        {suit: Suit.CLUBS, rank: Rank.JACK},
+      ])).toEqual([2, 3]);
+    });
   });
 
   describe('cardsForAFlush', () => {

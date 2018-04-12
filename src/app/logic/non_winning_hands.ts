@@ -1,5 +1,5 @@
 import {Card, enumerateRanks, enumerateSuits, Rank, Suit} from './deck';
-import {cardsForFourOfAKind, cardsForThreeOfAKind, cardsForTwoPair, cardsWithRank, generateRankMap, isFlush, isFullHouse, isStraight} from './winning_hands';
+import {cardsForFourOfAKind, cardsForJacksOrBetter, cardsForThreeOfAKind, cardsForTwoPair, cardsWithRank, generateRankMap, isFlush, isFullHouse, isStraight} from './winning_hands';
 
 export function bestCardsToHold(cards: Card[]): number[] {
   const flush = isFlush(cards);
@@ -38,6 +38,11 @@ export function bestCardsToHold(cards: Card[]): number[] {
     return indices;
   }
 
+  indices = cardsForJacksOrBetter(cards);
+  if (indices.length > 0) {
+    return indices;
+  }
+
   indices = cardsForARoyal(cards, 3);
   if (indices.length > 0) {
     console.log('return 3 for a royal');
@@ -66,7 +71,6 @@ export function bestCardsToHold(cards: Card[]): number[] {
 
   indices = cardsForThreeToAStraightFlush(cards);
   if (indices.length > 0) {
-    console.log('returning three to straight flush');
     return indices;
   }
 
