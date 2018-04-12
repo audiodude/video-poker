@@ -8,6 +8,7 @@ import {Card, Deck, Rank, Suit} from '../logic/deck';
 })
 export class CardsComponent {
   @Input() selections: boolean[] = [];
+  @Input() highlights: boolean[] = [];
   @Input() gameOver: boolean = false;
   @Input() cards: Card[] = [];
 }

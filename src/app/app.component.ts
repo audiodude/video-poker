@@ -11,11 +11,15 @@ import {determineHand} from './logic/winning_hands';
 })
 export class AppComponent implements OnInit {
   selections: boolean[];
+  highlights: boolean[];
   cards: Card[];
+  initialCards: Card[];
   deck: Deck;
   firstDeal: boolean;
   gameOver: boolean;
   showOptimal: boolean;
+  showingInitialCards: boolean;
+  isOptimal: boolean;
   hand: Hand;
   clearBet: boolean;
   betAmount: number = 0;
@@ -133,6 +137,7 @@ export class AppComponent implements OnInit {
       setTimeout(() => {
         this.hand = determineHand(this.cards);
         this.payout();
+        this.showOptimal = true;
         this.showOptimalHand();
       }, 200 + 200 * animationCounter);
       this.firstDeal = false;
@@ -171,16 +176,33 @@ export class AppComponent implements OnInit {
   }
 
   showOptimalHand() {
-    let bestHand = true;
+    this.isOptimal = true;
     for (const idx of this.optimalHand) {
-      bestHand = bestHand && this.selections[idx];
+      this.isOptimal = this.isOptimal && this.selections[idx];
     }
-    this.showOptimal = bestHand;
-    if (this.showOptimal) {
+    if (this.isOptimal) {
       this.streak++;
     } else {
-      streak = 0;
+      this.streak = 0;
     }
+  }
+
+  revealOptimal() {
+    this.gameOver = false;
+    let swap = this.cards;
+    this.cards = this.initialCards;
+    this.initialCards = swap;
+
+
+    if (this.showingInitialCards) {
+      this.highlights = [false, false, false, false, false];
+    } else {
+      for (const idx of this.optimalHand) {
+        this.highlights[idx] = true;
+      }
+    }
+
+    this.showingInitialCards = !this.showingInitialCards;
   }
 
   private initialDeal() {
@@ -193,13 +215,17 @@ export class AppComponent implements OnInit {
     this.firstDeal = true;
     this.gameOver = false;
     this.showOptimal = false;
+    this.isOptimal = false;
+    this.showingInitialCards = false;
     this.hand = Hand.NOTHING;
 
     this.selections = [false, false, false, false, false];
+    this.highlights = [false, false, false, false, false];
     this.deck = new Deck();
     this.deck.shuffle();
 
     this.cards = this.deck.deal(5);
+    this.initialCards = this.cards.slice(0);
 
     for (let i = 0; i < this.cards.length; i++) {
       setTimeout(() => {
@@ -214,6 +240,7 @@ export class AppComponent implements OnInit {
 
   private emptyDeal() {
     this.selections = [false, false, false, false, false];
+    this.highlights = [false, false, false, false, false];
     this.deck = new Deck();
     this.cards = this.deck.deal(5);
     this.gameOver = true;

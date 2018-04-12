@@ -21,6 +21,13 @@
   text-align: center;
 }
 
+.reveal {
+  background: #ddd;
+  border-radius: .25vw;
+  color: #000;
+  font-size: 1.5vw;
+}
+
 @media (min-width: 133.33vh) {
   :host {
     height: 100vh;

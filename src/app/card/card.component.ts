@@ -10,6 +10,7 @@ export class CardComponent {
   @Input() value: Card;
   @Input() held: boolean;
   @Input() idx: number;
+  @Input() highlight: boolean;
 
   constructor() {}
 
@@ -17,6 +18,9 @@ export class CardComponent {
     const classes = [];
     if (this.idx === 4) {
       classes.push('last');
+    }
+    if (this.highlight) {
+      classes.push('highlight');
     }
     if (this.value) {
       classes.push(this.value.hidden ? 'hidden ' : '');
