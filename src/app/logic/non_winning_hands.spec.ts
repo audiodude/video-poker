@@ -2,6 +2,18 @@ import {Rank, Suit} from './deck';
 import * as nwh from './non_winning_hands';
 
 describe('non_winning_hands module', () => {
+  describe('bestCardsToHold', () => {
+    it('returns the right indices for 3 to a flush', () => {
+      expect(nwh.bestCardsToHold([
+        {suit: Suit.CLUBS, rank: Rank.NINE},
+        {suit: Suit.DIAMONDS, rank: Rank.ACE},
+        {suit: Suit.CLUBS, rank: Rank.THREE},
+        {suit: Suit.CLUBS, rank: Rank.TEN},
+        {suit: Suit.SPADES, rank: Rank.JACK},
+      ])).toEqual([1, 4]);
+    });
+  });
+
   describe('cardsForAFlush', () => {
     it('returns true when there is four to a flush', () => {
       expect(nwh.cardsForAFlush(

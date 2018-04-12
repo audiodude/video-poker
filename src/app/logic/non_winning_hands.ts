@@ -40,6 +40,7 @@ export function bestCardsToHold(cards: Card[]): number[] {
 
   indices = cardsForARoyal(cards, 3);
   if (indices.length > 0) {
+    console.log('return 3 for a royal');
     return indices;
   }
 
@@ -65,6 +66,7 @@ export function bestCardsToHold(cards: Card[]): number[] {
 
   indices = cardsForThreeToAStraightFlush(cards);
   if (indices.length > 0) {
+    console.log('returning three to straight flush');
     return indices;
   }
 
@@ -133,9 +135,9 @@ export function cardsForAFlush(cards: Card[], n: number): number[] {
   return result;
 }
 
-export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
-  const cardIndicesForFlush = cardsForAFlush(cards, 4);
-  if (cardIndicesForFlush.length < 4) {
+export function cardsForAStraightFlush(cards: Card[], n: number): number[] {
+  const cardIndicesForFlush = cardsForAFlush(cards, n);
+  if (cardIndicesForFlush.length < n) {
     return [];
   }
   const cardsForFlush =
@@ -165,7 +167,7 @@ export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
       }
     } else if (rankToIndices[r].length >= 1) {
       straightIndices.push(rankToIndices[r][0]);
-      if (straightIndices.length === 4 && misses < 2) {
+      if (straightIndices.length === n && misses < 6 - n) {
         return straightIndices;
       }
     }
@@ -173,42 +175,12 @@ export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
   return [];
 }
 
+export function cardsForFourToAStraightFlush(cards: Card[]): number[] {
+  return cardsForAStraightFlush(cards, 4);
+}
+
 export function cardsForThreeToAStraightFlush(cards: Card[]): number[] {
-  const cardIndicesForFlush = cardsForAFlush(cards, 3);
-  if (cardIndicesForFlush.length < 3) {
-    return [];
-  }
-  const cardsForFlush =
-      cardIndicesForFlush.map((i) => [i, cards[i]])
-          .sort((a, b) => (a[1] as Card).rank - (b[1] as Card).rank);
-  const rankMap = generateRankMap(cardsForFlush.map((arr) => arr[1] as Card));
-
-  let ranks = enumerateRanks();
-  let r;
-  const rankToIndices = {};
-  while (r = ranks.next().value) {
-    rankToIndices[r] = [];
-  }
-  for (let i = 0; i < cards.length; i++) {
-    rankToIndices[cards[i].rank].push(i);
-  }
-
-  const straightIndices = [];
-  let misses = 0;
-  for (let i = 0; i < cardsForFlush.length; i++) {
-    const idx = cardsForFlush[i][0] as number;
-    const c = cardsForFlush[i][1] as Card;
-    const r = c.rank;
-    if (straightIndices.length > 0 && rankToIndices[r].length === 0) {
-      misses++;
-    } else if (rankToIndices[r].length >= 1) {
-      straightIndices.push(rankToIndices[r][0]);
-      if (straightIndices.length === 3 && misses < 3) {
-        return straightIndices;
-      }
-    }
-  }
-  return [];
+  return cardsForAStraightFlush(cards, 3);
 }
 
 export function cardsForFourToAnOutsideStraight(cards: Card[]): number[] {
