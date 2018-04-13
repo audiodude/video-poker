@@ -2,7 +2,9 @@
 <cards [cards]="cards"
        [selections]="selections"
        [highlights]="highlights"
-       [gameOver]="gameOver"></cards>
+       [canHold]="firstDeal"
+       [gameOver]="gameOver"
+       (cardHeld)="onCardHeld($event)"></cards>
 <controls [selections]="selections"
           [canHold]="firstDeal"
           (cardHeld)="onCardHeld($event)"></controls>

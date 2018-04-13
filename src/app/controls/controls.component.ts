@@ -10,8 +10,6 @@ export class ControlsComponent {
   @Input() canHold: boolean;
   @Output() cardHeld: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor() {}
-
   toggleSelection(index: number) {
     if (this.canHold) {
       this.cardHeld.emit(index)
