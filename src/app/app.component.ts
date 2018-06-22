@@ -177,9 +177,14 @@ export class AppComponent implements OnInit {
 
   showOptimalHand() {
     this.isOptimal = true;
-    for (const idx of this.optimalHand) {
-      this.isOptimal = this.isOptimal && this.selections[idx];
+    for (let idx = 0; idx < this.selections.length; idx++) {
+      if (this.optimalHand.indexOf(idx) != -1) {
+        this.isOptimal = this.isOptimal && this.selections[idx];
+      } else {
+        this.isOptimal = this.isOptimal && !this.selections[idx];
+      }
     }
+
     if (this.isOptimal) {
       this.streak++;
     } else {
