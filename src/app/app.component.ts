@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   hand: Hand;
   clearBet: boolean;
   betAmount: number = 0;
-  totalAmount: number = 100;
-  denomination = 0.25;
+  totalAmount: number = 500;
+  denomination = 1;
   newTotalAmount: number;
   isAnimatingPayout: boolean;
   optimalHand: number[];
@@ -192,7 +192,6 @@ export class AppComponent implements OnInit {
     let swap = this.cards;
     this.cards = this.initialCards;
     this.initialCards = swap;
-
 
     if (this.showingInitialCards) {
       this.highlights = [false, false, false, false, false];

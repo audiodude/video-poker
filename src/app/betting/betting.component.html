@@ -7,7 +7,7 @@
   </span>
   <span class="total-amount" (click)="totalAmountClicked()">
     <span *ngIf="!showDollars">
-      {{totalAmount}} {{totalAmount > 1 ? 'credits' : 'credit'}}
+      {{totalAmountCredits()}} {{totalAmount > 1 ? 'credits' : 'credit'}}
     </span>
     <span *ngIf="showDollars">
       ${{totalAmountDollars()}}
@@ -21,6 +21,7 @@
             (click)="betClicked(1)">Bet 1</button>
 
     <span class="denomination" (click)="denominationClicked()">
+      <span *ngIf="denomination === 1">1$</span>
       <span *ngIf="denomination === 0.25">25¢</span>
       <span *ngIf="denomination === 0.05">&nbsp;5¢</span>
     </span>
