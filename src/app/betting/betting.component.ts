@@ -24,7 +24,7 @@ export class BettingComponent {
   }
 
   totalAmountCredits() {
-    return this.totalAmount.toFixed(2) == this.totalAmount ? 
+    return this.totalAmount.toFixed(2).endsWith('00') ? 
       this.totalAmount : this.totalAmount.toFixed(2);
   }
 
@@ -42,7 +42,6 @@ export class BettingComponent {
 
   denominationClicked() {
     let idx = this.denominations.indexOf(this.denomination);
-    window.console.log(idx);
     let newDenomination = 0.25;
     if (idx !== -1) {
       idx = idx + 1;
