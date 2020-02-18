@@ -83,7 +83,7 @@ export class Deck {
     for (let s = suits.next(); s && !s.done; s = suits.next()) {
       const ranks = enumerateRanks();
       for (let r = ranks.next(); r && !r.done; r = ranks.next()) {
-        this.cards.push({suit: s.value, rank: r.value, hidden: true});
+        this.cards.push({ suit: s.value as Suit, rank: r.value as Rank, hidden: true });
       }
     }
   }

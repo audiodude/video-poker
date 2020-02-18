@@ -1,4 +1,4 @@
-import {Card, enumerateRanks, enumerateSuits, Hand, Rank, Suit} from './deck';
+import { Card, enumerateRanks, enumerateSuits, Hand, Rank, Suit } from './deck';
 
 export function determineHand(cards: Card[]): Hand {
   if (cards.length != 5) {
@@ -10,7 +10,7 @@ export function determineHand(cards: Card[]): Hand {
 
   if (flush && straight) {
     if (handContainsRank(cards, Rank.TEN) &&
-        handContainsRank(cards, Rank.ACE)) {
+      handContainsRank(cards, Rank.ACE)) {
       return Hand.ROYAL_FLUSH;
     } else {
       return Hand.STRAIGHT_FLUSH;
@@ -34,11 +34,11 @@ export function determineHand(cards: Card[]): Hand {
   }
 }
 
-export function generateRankMap(cards: Card[]): {[key: number]: number} {
+export function generateRankMap(cards: Card[]): { [key: number]: number } {
   let ranks = enumerateRanks();
   let r;
   const rankMap = {};
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     rankMap[r] = 0;
   }
   for (const c of cards) {
@@ -49,7 +49,7 @@ export function generateRankMap(cards: Card[]): {[key: number]: number} {
 
 export function isFlush(cards: Card[]): boolean {
   const suitsInHand =
-      {[Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0};
+    { [Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0 };
   for (const c of cards) {
     suitsInHand[c.suit]++;
   }
@@ -67,7 +67,7 @@ export function isStraight(cards: Card[]): boolean {
   let r;
 
   let straightCards = 0;
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (r == Rank.SIX && straightCards === 4 && rankMap[Rank.ACE] === 1) {
       // Wheel straight
       return true;
@@ -88,7 +88,7 @@ export function cardsForFourOfAKind(cards: Card[]): number[] {
   const rankMap = generateRankMap(cards);
   const ranks = enumerateRanks();
   let quadRank: Rank, r: Rank;
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (rankMap[r] === 4) {
       quadRank = r;
       break;
@@ -126,7 +126,7 @@ export function cardsForThreeOfAKind(cards: Card[]): number[] {
   const rankMap = generateRankMap(cards);
   const ranks = enumerateRanks();
   let tripRank: Rank, r: Rank;
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (rankMap[r] === 3) {
       tripRank = r;
       break;
@@ -150,14 +150,14 @@ export function cardsForTwoPair(cards: Card[]): number[] {
   let r;
 
   const pairs = [];
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (rankMap[r] === 2) {
       pairs.push(r);
     }
   }
   if (pairs.length == 2) {
     return cardsWithRank(cards, pairs[0])
-        .concat(cardsWithRank(cards, pairs[1]));
+      .concat(cardsWithRank(cards, pairs[1]));
   } else {
     return [];
   }
@@ -172,9 +172,9 @@ export function cardsForJacksOrBetter(cards: Card[]): number[] {
   const ranks = enumerateRanks();
   let foundRank: Rank, r: Rank;
 
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (r !== Rank.JACK && r !== Rank.QUEEN && r !== Rank.KING &&
-        r !== Rank.ACE) {
+      r !== Rank.ACE) {
       continue;
     }
     if (rankMap[r] === 2) {

@@ -1,5 +1,5 @@
-import {Card, enumerateRanks, enumerateSuits, Rank, Suit} from './deck';
-import {cardsForFourOfAKind, cardsForJacksOrBetter, cardsForThreeOfAKind, cardsForTwoPair, cardsWithRank, generateRankMap, isFlush, isFullHouse, isStraight} from './winning_hands';
+import { Card, enumerateRanks, enumerateSuits, Rank, Suit } from './deck';
+import { cardsForFourOfAKind, cardsForJacksOrBetter, cardsForThreeOfAKind, cardsForTwoPair, cardsWithRank, generateRankMap, isFlush, isFullHouse, isStraight } from './winning_hands';
 
 export function bestCardsToHold(cards: Card[]): number[] {
   const flush = isFlush(cards);
@@ -120,15 +120,15 @@ export function cardsForARoyal(cards: Card[], n: number): number[] {
 }
 
 export function cardsForAFlush(cards: Card[], n: number): number[] {
-  const suitsInHand: {[key: number]: number} =
-      {[Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0};
+  const suitsInHand: { [key: number]: number } =
+    { [Suit.SPADES]: 0, [Suit.DIAMONDS]: 0, [Suit.HEARTS]: 0, [Suit.CLUBS]: 0 };
   for (const c of cards) {
     suitsInHand[c.suit]++;
   }
   const result = [];
   const suits = enumerateSuits();
   for (let s = suits.next(); s && !s.done; s = suits.next()) {
-    if (suitsInHand[s.value] >= n) {
+    if (suitsInHand[s.value as Suit] >= n) {
       for (let i = 0; i < cards.length; i++) {
         if (cards[i].suit === s.value) {
           result.push(i);
@@ -145,13 +145,13 @@ export function cardsForAStraightFlush(cards: Card[], n: number): number[] {
     return [];
   }
   const cardsForFlush =
-      cardIndicesForFlush.map((i) => [i, cards[i]])
-          .sort((a, b) => (a[1] as Card).rank - (b[1] as Card).rank);
+    cardIndicesForFlush.map((i) => [i, cards[i]])
+      .sort((a, b) => (a[1] as Card).rank - (b[1] as Card).rank);
 
   let ranks = enumerateRanks();
   let r;
   const rankToIndices = {};
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     rankToIndices[r] = [];
   }
   for (let i = 0; i < cardsForFlush.length; i++) {
@@ -161,7 +161,7 @@ export function cardsForAStraightFlush(cards: Card[], n: number): number[] {
   ranks = enumerateRanks();
   let straightIndices = [];
   let misses = 0;
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (straightIndices.length > 0 && rankToIndices[r].length === 0) {
       if (misses > 1) {
         straightIndices = [];
@@ -191,7 +191,7 @@ export function cardsForFourToAnOutsideStraight(cards: Card[]): number[] {
   let ranks = enumerateRanks();
   let r;
   const rankToIndices = {};
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     rankToIndices[r] = [];
   }
   for (let i = 0; i < cards.length; i++) {
@@ -218,9 +218,9 @@ export function cardsForLowPair(cards: Card[]): number[] {
   const ranks = enumerateRanks();
   let foundRank: Rank, r: Rank;
 
-  while (r = ranks.next().value) {
+  while (r = ranks.next().value as Rank) {
     if (r === Rank.JACK || r === Rank.QUEEN || r === Rank.KING ||
-        r === Rank.ACE) {
+      r === Rank.ACE) {
       continue;
     }
     if (rankMap[r] === 2) {
@@ -248,7 +248,7 @@ export function cardsForTwoSuitedHighCards(cards: Card[]): number[] {
     const c = cards[i];
     const r = c.rank;
     if (r !== Rank.JACK && r !== Rank.QUEEN && r !== Rank.KING &&
-        r !== Rank.ACE) {
+      r !== Rank.ACE) {
       continue;
     }
     suitToIndices[c.suit].push(i);
@@ -266,7 +266,7 @@ export function cardsForTwoUnsuitedHighCards(cards: Card[]): number[] {
     const c = cards[i];
     const r = c.rank;
     if (r !== Rank.JACK && r !== Rank.QUEEN && r !== Rank.KING &&
-        r !== Rank.ACE) {
+      r !== Rank.ACE) {
       continue;
     }
     indices.push(i);
@@ -304,7 +304,7 @@ export function cardsForSuitedTenX(cards: Card[]): number[] {
 
   for (let i = 0; i < cards.length; i++) {
     if (cards[i].rank === Rank.QUEEN || cards[i].rank === Rank.JACK ||
-        cards[i].rank === Rank.KING) {
+      cards[i].rank === Rank.KING) {
       const suitIdx = tenSuits.indexOf(cards[i].suit);
       if (suitIdx !== -1) {
         return [i, tenIndices[suitIdx]];
@@ -321,7 +321,7 @@ export function cardsForOneHighCard(cards: Card[]): number[] {
     const c = cards[i];
     const r = c.rank;
     if (r === Rank.JACK || r === Rank.QUEEN || r === Rank.KING ||
-        r === Rank.ACE) {
+      r === Rank.ACE) {
       return [i];
     }
   }
