@@ -44,7 +44,6 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
               "aot": true,
@@ -130,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "video-poker"
+  "defaultProject": "video-poker",
+  "cli": {
+    "analytics": "5c6a24a5-f754-4789-b2e3-129cf5368260"
+  }
 }
