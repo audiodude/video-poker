@@ -36,7 +36,7 @@
     "tunnel-agent": "0.6.0",
     "webpack-subresource-integrity": "^1.5.1",
     "websocket-extensions": "^0.1.4",
-    "yargs-parser": "^5.0.0-security.0",
+    "yargs-parser": "^13.1.2",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
