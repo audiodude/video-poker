@@ -1,5 +1,11 @@
 # video-poker
 
+New repo for updated re-write of poker.0-z-0.com in Vue 3/Pinia.
+
+Original template README follows below.
+
+---
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
