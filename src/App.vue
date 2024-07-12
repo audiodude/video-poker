@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CardDisplay from '@/components/card_display.vue';
+</script>
 
 <template>
-  <h1 class="text-4xl text-center">Video Poker</h1>
+  <CardDisplay />
 </template>
 
 <style scoped></style>
