@@ -9,7 +9,3 @@ const cards = useCardsStore();
     <button class="border cursor-pointer" type="button" @click="cards.deal">Deal Cards</button>
   </div>
 </template>
-
-<style scoped>
-/* Your component's CSS styles go here */
-</style>

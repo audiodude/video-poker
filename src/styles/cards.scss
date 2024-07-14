@@ -1,0 +1,16 @@
+body {
+  background-color: lightblue;
+}
+
+$ranks: (2 3 4 5 6 7 8 9 T J Q K A);
+$suits: (c d h s);
+
+@for $rank-idx from 1 through length($ranks) {
+  @for $suit-idx from 1 through length($suits) {
+    $rank: nth($ranks, $rank-idx);
+    $suit: nth($suits, $suit-idx);
+    .c-#{$rank}#{$suit} {
+      background-image: url('@/assets/cards/#{$rank}#{$suit}.png');
+    }
+  }
+}
