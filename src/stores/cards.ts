@@ -40,7 +40,6 @@ export const useCardsStore = defineStore('cards', {
   }),
   actions: {
     deal() {
-      console.log('dealing');
       shuffle(this.deck);
       this.dealt = this.deck.splice(0, 5);
     },
