@@ -1,16 +1,27 @@
 <script setup lang="ts">
 import { useCardsStore } from '@/stores/cards';
 
+import Card from '@/components/card.vue';
+import { Card as CardModel } from '@/lib/card';
+
 const cards = useCardsStore();
+
+function onHoldClick(card: CardModel, isHeld: boolean) {
+  if (isHeld) {
+    cards.held.push(card);
+  } else {
+    cards.held = cards.held.filter((c) => c !== card);
+  }
+}
+
+function isHeld(card: CardModel) {
+  return cards.held.includes(card);
+}
 </script>
 
 <template>
-  <div class="flex justify-around mx-auto w-[82.125rem]">
-    <div
-      :class="`c-${card.rank}${card.suit}`"
-      class="ml-4 first:ml-0 w-[15.625rem] h-[22.6875rem] bg-contain bg-no-repeat"
-      v-for="card of cards.dealt"
-    ></div>
+  <div class="flex mx-auto w-[86.125rem]">
+    <Card :card="c" v-for="c of cards.dealt" :held="isHeld(c)" :onHoldClick="onHoldClick"></Card>
   </div>
 </template>
 

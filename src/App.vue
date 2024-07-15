@@ -26,6 +26,9 @@ onMounted(calculateFontSize);
   height: 75vw;
   width: 100vw;
 
+  max-height: 100vh;
+  max-width: 100vw;
+
   background-color: green;
 }
 
