@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useCardsStore } from '@/stores/cards';
+import { useGameStore } from '@/stores/game';
 
 import Card from '@/components/card.vue';
 import { Card as CardModel } from '@/lib/card';
 
 const cards = useCardsStore();
+const game = useGameStore();
 
 function onHoldClick(card: CardModel, isHeld: boolean) {
   if (isHeld) {
