@@ -1,4 +1,3 @@
-import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { Card } from '@/lib/card';
 
@@ -44,7 +43,7 @@ export const useCardsStore = defineStore('cards', {
       this.dealt = this.deck.splice(0, 5);
     },
     draw() {
-      const num = this.held.length;
+      const num = 5 - this.held.length;
       this.drawn = this.deck.splice(0, num);
     },
   },

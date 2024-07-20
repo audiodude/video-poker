@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCardsStore } from '@/stores/cards';
-import { useGameStore } from '@/stores/game';
+import { useGameStore, GameState } from '@/stores/game';
 
 import Card from '@/components/card.vue';
 import { Card as CardModel } from '@/lib/card';
@@ -23,7 +23,12 @@ function isHeld(card: CardModel) {
 
 <template>
   <div class="flex mx-auto w-[86.125rem]">
-    <Card :card="c" v-for="c of cards.dealt" :held="isHeld(c)" :onHoldClick="onHoldClick"></Card>
+    <Card
+      :card="c"
+      v-for="c of game.currentCards"
+      :held="isHeld(c)"
+      :onHoldClick="onHoldClick"
+    ></Card>
   </div>
 </template>
 

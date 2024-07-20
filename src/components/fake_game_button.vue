@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useCardsStore } from '@/stores/cards';
+import { useGameStore } from '@/stores/game';
 
-const cards = useCardsStore();
+const game = useGameStore();
 </script>
 
 <template>
@@ -9,7 +9,7 @@ const cards = useCardsStore();
     <button
       class="py-4 px-6 mr-8 border cursor-pointer text-[4rem]"
       type="button"
-      @click="cards.deal"
+      @click="game.next"
     >
       Deal
     </button>
