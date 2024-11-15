@@ -18,8 +18,8 @@ defineProps<{ card: Card; held: boolean; onHoldClick: (card: Card, isHeld: boole
       </div>
     </div>
     <div
-      class="mt-8 p-4 rounded-2xl text-3xl text-center cursor-pointer bg-yellow-500 text-zinc-200"
-      :class="{ 'bg-red-500': held }"
+      class="mt-8 p-4 rounded-2xl text-3xl text-center cursor-pointer text-zinc-600"
+      :class="{ 'bg-red-500': held, 'bg-yellow-500': !held }"
       @click="onHoldClick(card, !held)"
     >
       <div v-if="!held">Hold</div>
